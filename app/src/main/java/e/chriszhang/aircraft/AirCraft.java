@@ -13,7 +13,6 @@ public class AirCraft extends  FlyingObject implements  Runnable{
      */
     private AirCraftState airCraftState;
 
-
     @Override
     public void run(){
         try{
@@ -29,6 +28,9 @@ public class AirCraft extends  FlyingObject implements  Runnable{
     }
 
 
+
+
+
     public int getHP() {
         return HP;
     }
@@ -37,6 +39,7 @@ public class AirCraft extends  FlyingObject implements  Runnable{
         this.HP = HP;
     }
 
+
     public AirCraftState getAirCraftState() {
         return airCraftState;
     }
@@ -44,8 +47,5 @@ public class AirCraft extends  FlyingObject implements  Runnable{
     public void setAirCraftState(AirCraftState airCraftState) {
         this.airCraftState = airCraftState;
     }
-
-
-
 
 }

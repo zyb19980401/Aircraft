@@ -14,11 +14,12 @@ public class StartingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting);
+        addStartButtonListener();
     }
 
     void addStartButtonListener(){
-        Button Startbutton = findViewById(R.id.Start);
-        Startbutton.setOnClickListener(v->{
+        Button StartButton = findViewById(R.id.Start);
+        StartButton.setOnClickListener(v->{
             Intent temp = new Intent(this, GameActivity.class);
             startActivity(temp);
         });

@@ -18,6 +18,10 @@ public class FlyingObject {
      */
     private float height;
 
+
+    /**
+     * the skyManager of that Flying Object
+     */
     private SkyManager skyManager;
 
     /**
@@ -27,7 +31,7 @@ public class FlyingObject {
 
 
     FlyingObject(){
-        this.skyManager= GameActivity.getSkyManager();
+        this.skyManager=  GameActivity.getSkyManager();
     }
 
 
@@ -43,74 +47,54 @@ public class FlyingObject {
      * */
     void SetY(float y){
         rectangle.top = y;
-        rectangle.bottom = y + rectangle.top;
-    }
-
-
-    boolean isHitBy(FlyingObject obj) {
-        float px = 25 * getSkyManager().getRate();
-        return checkLeftHit(px, this, obj) && checkTopHit(px, this, obj);
-
-    }
-
-    /**
-     * A helper function.
-     */
-    boolean checkLeftHit(float px, FlyingObject objSelf, FlyingObject obj) {
-        return objSelf.getRectangle().left - obj.getRectangle().left + px <= obj.getWidth()
-                && obj.getRectangle().left - objSelf.getRectangle().left + 3 * px <= this.getWidth();
-    }
-
-    /**
-     * A helper function.
-     */
-    boolean checkTopHit(float px, FlyingObject objSelf, FlyingObject obj) {
-        return objSelf.getRectangle().top + px - obj.getRectangle().top <= obj.getHeight()
-                && obj.getRectangle().top - objSelf.getRectangle().top + 3 * px <= objSelf.getHeight();
+        rectangle.bottom = y + height;
     }
 
 
 
-    public void setRectangle(RectF rectangle) {
-        this.rectangle = rectangle;
-    }
-
-    /**
-     * @return the rectangle
-     */
     public RectF getRectangle() {
         return rectangle;
     }
+
     public float getWidth() {
         return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
     }
 
     public float getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
     public SkyManager getSkyManager() {
         return skyManager;
     }
-
-    public void setSkyManager(SkyManager skyManager) {
-        this.skyManager = skyManager;
-    }
-
 
     public float getSpeed() {
         return speed;
     }
 
+
+
+
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+
+    public void setSkyManager(SkyManager skyManager) {
+        this.skyManager = skyManager;
+    }
+
     public void setSpeed(float speed) {
         this.speed = speed;
     }
+
+    public void setRectangle(RectF rectangle) {
+        this.rectangle = rectangle;
+    }
+
 }
