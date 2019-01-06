@@ -8,17 +8,36 @@ public class AirCraft extends  FlyingObject implements  Runnable{
      */
     private int HP;
 
+    private int exploingState;
+
+    public int getExploingState() {
+        return exploingState;
+    }
+
+    public void setExploingState(int exploingState) {
+        this.exploingState = exploingState;
+    }
+
+
+    private boolean isRunning;
+
+    public AirCraft(){
+        this.setRunning(true);
+    }
+
+
     /**
      * the aircraftestate of the current aircraft;
      */
-    private AirCraftState airCraftState;
 
     @Override
     public void run(){
         try{
             if(this instanceof MyAircraft){
                 Thread.sleep(200);
-                new Bullet();
+                float x = this.getRectangle().left + this.getWidth()/2 -50*getSkyManager().getRate()/2;
+                float y = this.getRectangle().top - 50 * getSkyManager().getRate()/2 ;
+                new Bullet(this,x , y, 0, - 6 * getSkyManager().getRate());
             }
 
         }
@@ -39,13 +58,14 @@ public class AirCraft extends  FlyingObject implements  Runnable{
         this.HP = HP;
     }
 
-
-    public AirCraftState getAirCraftState() {
-        return airCraftState;
+    public boolean isRunning() {
+        return isRunning;
     }
 
-    public void setAirCraftState(AirCraftState airCraftState) {
-        this.airCraftState = airCraftState;
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
+
+
 
 }

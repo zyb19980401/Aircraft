@@ -40,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         skyManager = new SkyManager();
+        skyManager.setRunning(true);
         new Thread(skyManager).start();
         setOnTouchListener();
         GameView gameView = new GameView(this, getSkyManager());
@@ -76,6 +77,14 @@ public class GameActivity extends AppCompatActivity {
             skyManager.getMyAircraft().SetY(newY);
             return true;
         };
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        skyManager.setRunning(false);
+        finish();
     }
     }
 

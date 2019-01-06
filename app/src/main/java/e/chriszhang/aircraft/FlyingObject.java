@@ -97,4 +97,28 @@ public class FlyingObject {
         this.rectangle = rectangle;
     }
 
+
+    boolean isHitBy(FlyingObject obj) {
+        float px = 25 * getSkyManager().getRate();
+        return checkLeftHit(px, this, obj) && checkTopHit(px, this, obj);
+
+    }
+
+    /**
+     * A helper function.
+     */
+    boolean checkLeftHit(float px, FlyingObject objSelf, FlyingObject obj) {
+        return objSelf.getRectangle().left - obj.getRectangle().left + px <= obj.getWidth()
+                && obj.getRectangle().left - objSelf.getRectangle().left + 3 * px <= this.getWidth();
+    }
+
+    /**
+     * A helper function.
+     */
+    boolean checkTopHit(float px, FlyingObject objSelf, FlyingObject obj) {
+        return objSelf.getRectangle().top + px - obj.getRectangle().top <= obj.getHeight()
+                && obj.getRectangle().top - objSelf.getRectangle().top + 3 * px <= objSelf.getHeight();
+    }
+
+
 }
