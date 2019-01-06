@@ -75,7 +75,7 @@ public class GameView extends View {
         temp.add(smallAircraft2);
         temp.add(smallAircraft3);
         temp.add(smallAircraft4);
-        drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写
+        drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
     }
 
 
