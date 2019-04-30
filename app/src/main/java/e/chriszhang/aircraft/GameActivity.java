@@ -2,6 +2,7 @@ package e.chriszhang.aircraft;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         skyManager = new SkyManager();
         skyManager.setRunning(true);
+        createTimer();
         new Thread(skyManager).start();
         setOnTouchListener();
         GameView gameView = new GameView(this, getSkyManager());
@@ -77,6 +79,31 @@ public class GameActivity extends AppCompatActivity {
             skyManager.getMyAircraft().SetY(newY);
             return true;
         };
+
+    }
+
+    /**
+     * create a new timer.
+     * this is according to a post from stack overflow.
+     * https://stackoverflow.com/questions/1877417/how-to-set-a-timer-in-android
+     */
+    private void createTimer() {
+        final Handler handler = new Handler();
+        final int delay = 1000; //milliseconds
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (skyManager.isRunning()){
+                    skyManager.addTime();
+                    updateTimerText();
+                    handler.postDelayed(this, delay);}}
+        }, delay);
+    }
+    private void updateTimerText() {
+
+        int minutes = (getSkyManager().getmTimeLeftInMillis() / 1000) / 60;
+        int seconds = (getSkyManager().getmTimeLeftInMillis() / 1000) % 60;
+        System.out.printf("%02d: %02d\n", minutes, seconds);
+
 
     }
 

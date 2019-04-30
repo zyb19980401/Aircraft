@@ -45,6 +45,90 @@ public class GameView extends View {
     RectF heart1 = new RectF();
     RectF heart2 = new RectF();
     RectF heart3 = new RectF();
+    RectF timeTenMin = new RectF();
+    RectF timeMin = new RectF();
+    RectF timeDot = new RectF();
+    RectF timeSec = new RectF();
+    RectF timeMilisec = new RectF();
+
+
+    private List temp  = new ArrayList<Bitmap>();
+
+    private List timers = new ArrayList<Bitmap>();
+
+    /**
+     * Set the time part  x and y.
+     */
+    private void setTime(){
+        timeMilisec.left = 1000;
+        timeMilisec.right = 1050;
+        timeMilisec.top = 0;
+        timeMilisec.bottom = 75;
+
+        timeSec.left = 950;
+        timeSec.right = 1000;
+        timeSec.top = 0;
+        timeSec.bottom = 75;
+
+
+        timeDot.left = 925;
+        timeDot.right = 950;
+        timeDot.top = 0;
+        timeDot.bottom = 75;
+
+
+        timeMin.left = 875;
+        timeMin.right = 925;
+        timeMin.top = 0;
+        timeMin.bottom = 75;
+
+
+        timeTenMin.left = 825;
+        timeTenMin.right = 875;
+        timeTenMin.top = 0;
+        timeTenMin.bottom = 75;
+    }
+
+    private void setPictureList(){
+        temp.add(smallAircraft0);
+        temp.add(smallAircraft1);
+        temp.add(smallAircraft2);
+        temp.add(smallAircraft3);
+        temp.add(smallAircraft4);
+
+        //need to use a helper, and should not be in onDraw.
+//        List timers = new ArrayList<Bitmap>();
+        timers.add(timer0);
+        timers.add(timer1);
+        timers.add(timer2);
+        timers.add(timer3);
+        timers.add(timer4);
+        timers.add(timer5);
+        timers.add(timer6);
+        timers.add(timer7);
+        timers.add(timer8);
+        timers.add(timer9);
+    }
+
+    protected void drawTime(Canvas g) {
+        int timer = skyManager.getmTimeLeftInMillis();
+
+        int minutes = (timer / 1000) / 60;
+        int seconds = (timer / 1000) % 60;
+        String result = String.format("%02d%02d", minutes, seconds);
+        setTime();
+        int milsec = Character.getNumericValue(result.charAt(3));  //this is the number of 0.1sec
+        int sec = Character.getNumericValue(result.charAt(2));      //this is the number of sec
+        int min = Character.getNumericValue(result.charAt(1));      //this is the number of one min
+        int tenmin = Character.getNumericValue(result.charAt(0));   //this is the number of ten min
+
+        g.drawBitmap((Bitmap) timers.get(milsec), null, timeMilisec, p);
+        g.drawBitmap((Bitmap) timers.get(sec), null, timeSec, p);
+        g.drawBitmap(timerDot, null, timeDot, p);
+        g.drawBitmap((Bitmap) timers.get(min), null, timeMin, p);
+        g.drawBitmap((Bitmap) timers.get(tenmin), null, timeTenMin, p);
+    }
+
 
 
     /**
@@ -73,6 +157,7 @@ public class GameView extends View {
         super(context);
         this.context = context;
         this.skyManager = skyManager;
+        setPictureList();
         new Thread(new reDraw()).start();
     }
 
@@ -86,7 +171,19 @@ public class GameView extends View {
     private Bitmap smallAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane3);
     private Bitmap smallAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane4);
     private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerup);
+    private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
+    private Bitmap timer0 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer0);
+    private Bitmap timer1 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer1);
+    private Bitmap timer2 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer2);
+    private Bitmap timer3 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer3);
+    private Bitmap timer4 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer4);
+    private Bitmap timer5 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer5);
+    private Bitmap timer6 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer6);
+    private Bitmap timer7 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer7);
+    private Bitmap timer8 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer8);
+    private Bitmap timer9 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer9);
+    private Bitmap timerDot = BitmapFactory.decodeResource(getResources(), R.mipmap.timerdot);
 
 
 
@@ -100,12 +197,7 @@ public class GameView extends View {
         drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
         drawHp(g);
-        List temp  = new ArrayList<Bitmap>();
-        temp.add(smallAircraft0);
-        temp.add(smallAircraft1);
-        temp.add(smallAircraft2);
-        temp.add(smallAircraft3);
-        temp.add(smallAircraft4);
+        drawTime(g);
         drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
     }
 
