@@ -25,6 +25,11 @@ public class EnemyAirCraft extends AirCraft{
             Thread.sleep(50);
             SetY((getRectangle().top + speedY * getSkyManager().getRate()));
             SetX((getRectangle().left + speedX * getSkyManager().getRate()));
+            if(this.isRunning()&&this.isHitBy(getSkyManager().getMyAircraft())){
+                setRunning(false);
+                getSkyManager().getMyAircraft().decreaseHP();
+                System.out.println("撞到自己的飞机啦！！！！" );
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,11 +40,11 @@ public class EnemyAirCraft extends AirCraft{
         try{Thread.sleep(100);
             int a = getExploingState();
             setExploingState(a +1);
-            System.out.println("wwwwwwwww" + getExploingState());}
+           }
           catch (Exception e){
             e.printStackTrace();
         }
     }
-        getSkyManager().removeEnemyAirCraftList(this); //TODO this need to be changed
+    getSkyManager().removeEnemyAirCraftList(this); //TODO this need to be changed
 }
 }

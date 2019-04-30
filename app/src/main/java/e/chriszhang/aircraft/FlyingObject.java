@@ -8,6 +8,7 @@ public class FlyingObject {
      */
     private RectF rectangle = new RectF();
 
+
     /**
      * the width of the rectangle
      */

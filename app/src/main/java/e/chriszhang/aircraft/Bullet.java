@@ -60,6 +60,9 @@ public class Bullet extends FlyingObject implements Runnable{
                 }
             }
             else {
+                if(this.isHitBy(getSkyManager().getMyAircraft())){
+                    System.out.println("撞到自己的飞机啦！！！！" );
+                }
                 running = getRectangle().top < getSkyManager().getHeight();
             }
         }

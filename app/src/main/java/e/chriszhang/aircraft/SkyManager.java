@@ -25,6 +25,8 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<Bullet>  MyBulletLIst = Collections.synchronizedList (new ArrayList<>());
 
+    private List<PowerUpItem>  PowerUpItemList = Collections.synchronizedList (new ArrayList<>());
+
     private MyAircraft myAircraft;
 
     private int mTimeLeftInMillis;
@@ -75,6 +77,11 @@ public class SkyManager extends Observable implements Runnable {
     }
 
 
+
+    public List<PowerUpItem> getPowerUpItemList() {
+        return PowerUpItemList;
+    }
+
     float getRate() {
         return rate;
     }
@@ -113,6 +120,10 @@ public class SkyManager extends Observable implements Runnable {
         EnemyAirCraftList.remove(airCraft);
     }
 
+    public void removePowerUpItem(PowerUpItem item) {
+        PowerUpItemList.remove(item);
+    }
+
 
     public void addEnemyAirCraftList(AirCraft airCraft) {
         EnemyAirCraftList.add(airCraft);
@@ -128,6 +139,10 @@ public class SkyManager extends Observable implements Runnable {
 
     public void addEnemyBulletList(Bullet bullet) {
         EnemyBulletList.add(bullet);
+    }
+
+    public void addPowerUpItem(PowerUpItem item){
+        PowerUpItemList.add(item);
     }
 
 
@@ -177,11 +192,22 @@ public class SkyManager extends Observable implements Runnable {
                  float x = (float) (Math.random() * (getWidth() - 100));
                  float y = 0;  // small enemyAircraft;s height
                  new SmallEnemyAirCraft(x, y, 0, 20);
-                 System.out.println("this is the enenmy aircraft list!" + getEnemyAirCraftList().size());
-             }
+//                 System.out.println("this is the enenmy aircraft list!" + getEnemyAirCraftList().size());
+            }
              catch(Exception e){
                  e.printStackTrace();
-             }
+                }
+
+            try {
+                Thread.sleep(1600);
+                float x = (float) (Math.random() * (getWidth() - 100));
+                float y = 0;  // small enemyAircraft;s height
+                new PowerUpItem(x, y, 0, 20);
+                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
          }
         }
     }

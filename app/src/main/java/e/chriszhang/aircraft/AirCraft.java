@@ -32,14 +32,21 @@ public class AirCraft extends  FlyingObject implements  Runnable{
 
     @Override
     public void run(){
-        try{
-            if(this instanceof MyAircraft){
+        try {
+            if (this instanceof MyAircraft) {
                 Thread.sleep(200);
-                float x = this.getRectangle().left + this.getWidth()/2 -50*getSkyManager().getRate()/2;
-                float y = this.getRectangle().top - 50 * getSkyManager().getRate()/2 ;
-                new Bullet(this,x , y, 0, - 6 * getSkyManager().getRate());
-            }
+                float x = this.getRectangle().left + this.getWidth() / 2 - 50 * getSkyManager().getRate() / 2;
+                float y = this.getRectangle().top - 50 * getSkyManager().getRate() / 2;
+                switch (((MyAircraft) this).getWeaponType()) {
+                    case 1:
+                        new Bullet(this, x - (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
+                        new Bullet(this, x + (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
+                        break;
+                    default:
+                        new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
+                }
 
+            }
         }
         catch(InterruptedException e) {
             e.printStackTrace();
@@ -52,6 +59,10 @@ public class AirCraft extends  FlyingObject implements  Runnable{
 
     public int getHP() {
         return HP;
+    }
+
+    public void decreaseHP(){
+        this.HP --;
     }
 
     public void setHP(int HP) {

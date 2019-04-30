@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
@@ -40,6 +40,33 @@ public class GameView extends View {
     private static int bulletStyle = R.mipmap.bullet1;
 
     /**
+     * the Hp heart in the game.
+     */
+    RectF heart1 = new RectF();
+    RectF heart2 = new RectF();
+    RectF heart3 = new RectF();
+
+
+    /**
+     * Set the Heart x and y.
+     */
+    private void setHeart(){
+        heart1.left = 0;
+        heart1.bottom = 0;
+        heart1.right = 100;
+        heart1.top = 100;
+
+        heart2.left = 100;
+        heart2.bottom = 0;
+        heart2.right = 200;
+        heart2.top = 100;
+
+        heart3.left = 200;
+        heart3.bottom = 0;
+        heart3.right = 300;
+        heart3.top = 100;
+    }
+    /**
      * The constructor of the game view.
      */
     public GameView(Context context,SkyManager skyManager) {
@@ -58,6 +85,8 @@ public class GameView extends View {
     private Bitmap smallAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane2);
     private Bitmap smallAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane3);
     private Bitmap smallAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane4);
+    private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerup);
+    private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
 
 
 
@@ -69,6 +98,8 @@ public class GameView extends View {
         g.drawBitmap(background, null, skyManager.getBackGround().getRectangle(), p);//draw background
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
         drawList(g, skyManager.getMyBulletLIst(),bullet);
+        drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
+        drawHp(g);
         List temp  = new ArrayList<Bitmap>();
         temp.add(smallAircraft0);
         temp.add(smallAircraft1);
@@ -76,6 +107,24 @@ public class GameView extends View {
         temp.add(smallAircraft3);
         temp.add(smallAircraft4);
         drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
+    }
+
+    protected void drawHp(Canvas g){
+        int hp = skyManager.getMyAircraft().getHP();
+        setHeart();
+        switch(hp) {
+            case 3:
+                g.drawBitmap(heart, null, heart1, p);
+                g.drawBitmap(heart, null, heart2, p);
+                g.drawBitmap(heart, null, heart3, p);
+                break;
+            case 2:
+                g.drawBitmap(heart, null, heart1, p);
+                g.drawBitmap(heart, null, heart2, p);
+                break;
+            case 1:
+                g.drawBitmap(heart, null, heart1, p);
+        }
     }
 
 
@@ -87,6 +136,10 @@ public class GameView extends View {
         }}catch(ConcurrentModificationException e){
             e.printStackTrace();
             System.out.println("ConcurrentModificationException");
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+            System.out.println("NullPointerException");
         }
     }
 

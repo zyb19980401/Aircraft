@@ -7,10 +7,24 @@ package e.chriszhang.aircraft;
  */
 public class MyAircraft extends AirCraft {
 
+
+    public int getWeaponType() {
+        return weaponType;
+    }
+
+    public void setWeaponType(int weaponType) {
+        this.weaponType = weaponType;
+    }
+
     /**
      * The number of enemy crafts killed.
      */
-    int numKilled;
+    private int numKilled;
+
+    /**
+     * The weapon type of my aircraft. 0 means one bullet, 1 means two bullets, 2 means three bullets
+     */
+    private int weaponType;
 
     /**
      * The constructor of the MyAircraft class.
