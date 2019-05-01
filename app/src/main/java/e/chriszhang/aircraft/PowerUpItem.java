@@ -45,13 +45,8 @@ public class PowerUpItem extends  FlyingObject implements  Runnable {
                 setRunning(getRectangle().top < getSkyManager().getHeight());
             }
             if (isHitBy(getSkyManager().getMyAircraft())){
-                if( getSkyManager().getMyAircraft().getWeaponType() == 1){
-                    getSkyManager().getMyAircraft().setWeaponType(2);
-                    getSkyManager().getMyAircraft().setStartTime((getSkyManager().getmTimeLeftInMillis() / 1000) % 60);
-                }
-                else if(getSkyManager().getMyAircraft().getWeaponType() == 0) {
-                    getSkyManager().getMyAircraft().setWeaponType(1);
-                }
+                System.out.println("可以升级武器啦啦啦啦啦啦");
+                getSkyManager().getMyAircraft().setWeaponType(1);
                 setRunning(false);
                 getSkyManager().removePowerUpItem(this);
             }

@@ -196,7 +196,6 @@ public class GameView extends View {
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
         drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
-        drawList(g, skyManager.getMissileList(), missile);
         drawHp(g);
         drawTime(g);
         drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.

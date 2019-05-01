@@ -1,7 +1,5 @@
 package e.chriszhang.aircraft;
 
-import java.util.Vector;
-
 public class AirCraft extends  FlyingObject implements  Runnable{
 
 
@@ -12,16 +10,6 @@ public class AirCraft extends  FlyingObject implements  Runnable{
 
     private int exploingState;
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    private int startTime;
-
     public int getExploingState() {
         return exploingState;
     }
@@ -31,11 +19,9 @@ public class AirCraft extends  FlyingObject implements  Runnable{
     }
 
 
-
     private boolean isRunning;
 
     public AirCraft(){
-
         this.setRunning(true);
     }
 
@@ -55,17 +41,6 @@ public class AirCraft extends  FlyingObject implements  Runnable{
                     case 1:
                         new Bullet(this, x - (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
                         new Bullet(this, x + (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
-                        break;
-                    case 2:
-                        new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
-                        int End_time = (getSkyManager().getmTimeLeftInMillis() / 1000) % 60;
-                        int time_difference = End_time - startTime;
-                        System.out.println("this is the fking time differ" + time_difference);
-                        if(time_difference > 1) {
-                            new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
-                            new Missile(x + (getWidth()-150), y, 0, -6 * getSkyManager().getRate());
-                            startTime = End_time;
-                        }
                         break;
                     default:
                         new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
