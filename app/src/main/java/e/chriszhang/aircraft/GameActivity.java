@@ -113,7 +113,7 @@ public class GameActivity extends AppCompatActivity {
         skyManager.setRunning(false);
         finish();
     }
-    }
+}
 
 
 

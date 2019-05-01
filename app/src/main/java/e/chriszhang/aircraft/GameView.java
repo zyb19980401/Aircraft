@@ -196,6 +196,7 @@ public class GameView extends View {
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
         drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
+        drawList(g, skyManager.getMissileList(), missile);
         drawHp(g);
         drawTime(g);
         drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
@@ -223,9 +224,9 @@ public class GameView extends View {
 
     protected  void drawList(Canvas g, List<? extends FlyingObject> list, Bitmap image){
         try{
-        for(FlyingObject i : list){
-            g.drawBitmap(image, null, i.getRectangle(),p);
-        }}catch(ConcurrentModificationException e){
+            for(FlyingObject i : list){
+                g.drawBitmap(image, null, i.getRectangle(),p);
+            }}catch(ConcurrentModificationException e){
             e.printStackTrace();
             System.out.println("ConcurrentModificationException");
         }
@@ -238,19 +239,19 @@ public class GameView extends View {
     protected  void drawListaircrafts(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
         try{
             for(AirCraft i : list){
-                    if (i.getExploingState() ==0){
-                        g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
-                     else if(i.getExploingState() ==1){
-                        g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
+                if (i.getExploingState() ==0){
+                    g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
+                else if(i.getExploingState() ==1){
+                    g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
 
-                     else if(i.getExploingState() ==2){
-                        g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
-                    else if(i.getExploingState() ==3){
-                        g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
-                    else if(i.getExploingState() ==4){
-                        g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
-                }
-            }catch(ConcurrentModificationException e){
+                else if(i.getExploingState() ==2){
+                    g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
+                else if(i.getExploingState() ==3){
+                    g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
+                else if(i.getExploingState() ==4){
+                    g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
+            }
+        }catch(ConcurrentModificationException e){
             e.printStackTrace();
             System.out.println("ConcurrentModificationException");
         }

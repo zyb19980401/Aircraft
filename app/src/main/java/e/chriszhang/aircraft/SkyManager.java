@@ -27,6 +27,8 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<PowerUpItem>  PowerUpItemList = Collections.synchronizedList (new ArrayList<>());
 
+    private List<Missile>  MissileList = Collections.synchronizedList (new ArrayList<>());
+
     private MyAircraft myAircraft;
 
     private int mTimeLeftInMillis;
@@ -129,6 +131,15 @@ public class SkyManager extends Observable implements Runnable {
         EnemyAirCraftList.add(airCraft);
     }
 
+    public void addMissileList(Missile missile){
+        MissileList.add(missile);
+    }
+
+    public void removeMissileList(Missile missile){
+        MissileList.remove(missile);
+    }
+
+
 
 
     public void addMyBulletLIst(Bullet bullet) {
@@ -187,16 +198,16 @@ public class SkyManager extends Observable implements Runnable {
     @Override
     public void run(){  //这里控制GameState
         while (isRunning()){
-         try {
-                 Thread.sleep(1600);
-                 float x = (float) (Math.random() * (getWidth() - 100));
-                 float y = 0;  // small enemyAircraft;s height
-                 new SmallEnemyAirCraft(x, y, 0, 20);
+            try {
+                Thread.sleep(1600);
+                float x = (float) (Math.random() * (getWidth() - 100));
+                float y = 0;  // small enemyAircraft;s height
+                new SmallEnemyAirCraft(x, y, 0, 20);
 //                 System.out.println("this is the enenmy aircraft list!" + getEnemyAirCraftList().size());
             }
-             catch(Exception e){
-                 e.printStackTrace();
-                }
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
             try {
                 Thread.sleep(1600);
@@ -208,9 +219,17 @@ public class SkyManager extends Observable implements Runnable {
             catch(Exception e){
                 e.printStackTrace();
             }
-         }
         }
     }
+
+    public List<Missile> getMissileList() {
+        return MissileList;
+    }
+
+    public void setMissileList(List<Missile> missileList) {
+        MissileList = missileList;
+    }
+}
 
 
 
