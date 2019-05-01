@@ -1,10 +1,14 @@
 package e.chriszhang.aircraft;
 
+import java.util.Vector;
+
 public class EnemyAirCraft extends AirCraft{
     private float x;
     private float y;
     private float speedX;
     private float speedY;
+    private boolean changed;
+    private Vector<Missile> obs;
 
 
 
@@ -15,6 +19,55 @@ public class EnemyAirCraft extends AirCraft{
         this.y = Y;
         this.speedX = SpeedX;
         this.speedY = SpeedY;
+        changed = false;
+        obs = new Vector<>();
+    }
+
+    public synchronized  void addObserver(Missile missile){
+        if(missile == null){
+            throw new NullPointerException();
+        }
+        if(!obs.contains(missile)){
+            obs.addElement(missile);
+        }
+    }
+
+    public synchronized void deleteObservers(Missile missile){
+        obs.removeElement(missile);
+    }
+
+    public void notifyObservers(int X, int Y){
+        Object[] arrLocal;
+
+        synchronized(this){
+            if(!changed)
+                return;
+            arrLocal = obs.toArray();
+            clearChanged();
+        }
+        for(int i = arrLocal.length -1; i>=0; i--){
+            ((Missile)arrLocal[i]).update(this, X, Y);
+        }
+    }
+
+    public synchronized void deleteObservers(){
+        obs.removeAllElements();
+    }
+
+    protected synchronized void setChanged(){
+        changed = true;
+    }
+
+    protected synchronized void clearChanged(){
+        changed = false;
+    }
+
+    public synchronized boolean hasChanged(){
+        return changed;
+    }
+
+    public synchronized int countObservers(){
+        return obs.size();
     }
 
 @Override

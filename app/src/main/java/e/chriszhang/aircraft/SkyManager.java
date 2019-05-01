@@ -27,6 +27,8 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<PowerUpItem>  PowerUpItemList = Collections.synchronizedList (new ArrayList<>());
 
+    private List<Missile>  MissileList = Collections.synchronizedList (new ArrayList<>());
+
     private MyAircraft myAircraft;
 
     private int mTimeLeftInMillis;
@@ -129,6 +131,15 @@ public class SkyManager extends Observable implements Runnable {
         EnemyAirCraftList.add(airCraft);
     }
 
+    public void addMissileList(Missile missile){
+        MissileList.add(missile);
+    }
+
+    public void removeMissileList(Missile missile){
+        MissileList.remove(missile);
+    }
+
+
 
 
     public void addMyBulletLIst(Bullet bullet) {
@@ -210,7 +221,15 @@ public class SkyManager extends Observable implements Runnable {
             }
          }
         }
+
+    public List<Missile> getMissileList() {
+        return MissileList;
     }
+
+    public void setMissileList(List<Missile> missileList) {
+        MissileList = missileList;
+    }
+}
 
 
 
