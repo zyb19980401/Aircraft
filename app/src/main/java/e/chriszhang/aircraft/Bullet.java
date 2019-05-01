@@ -74,9 +74,4 @@ public class Bullet extends FlyingObject implements Runnable{
             getSkyManager().removeEnemyBulletList(this);
         }
     }
-
-
-
-
-
 }
