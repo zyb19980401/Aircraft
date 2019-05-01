@@ -1,5 +1,7 @@
 package e.chriszhang.aircraft;
 
+import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 public class AirCraft extends  FlyingObject implements  Runnable{
@@ -62,11 +64,33 @@ public class AirCraft extends  FlyingObject implements  Runnable{
                         int time_difference = End_time - startTime;
                         System.out.println("this is the fking time differ" + time_difference);
                         if(time_difference > 1) {
-                            new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
-                            new Missile(x + (getWidth()-150), y, 0, -6 * getSkyManager().getRate());
-                            startTime = End_time;
+                            List<EnemyAirCraft> enemyAirCrafts = getSkyManager().getEnemyAirCraftList();
+                            int min = 0;
+                            int max = enemyAirCrafts.size();
+                            if (max > 0) {
+                                Random randomNum = new Random();
+                                int leftMissileTarget = min + randomNum.nextInt(max);
+                                int rightMissileTarget = min + randomNum.nextInt(max);
+                                Missile leftMissile = new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
+                                Missile rightMissile = new Missile(x + (getWidth() - 150), y, 0, -6 * getSkyManager().getRate());
+
+                                try {
+                                    enemyAirCrafts.get(leftMissileTarget).addObserver(leftMissile);
+                                    enemyAirCrafts.get(rightMissileTarget).addObserver(rightMissile);
+                                } catch (java.lang.NullPointerException e) {
+                                    e.printStackTrace();
+                                }
+
+                                System.out.println("左边导弹的INDEX " + leftMissileTarget);
+                                System.out.println("右边导弹的INDEX " + rightMissileTarget);
+                                startTime = End_time;
+                            } else {
+                                new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
+                                new Missile(x + (getWidth() - 150), y, 0, -6 * getSkyManager().getRate());
+                                startTime = End_time;
+                            }
+                            break;
                         }
-                        break;
                     default:
                         new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
                 }

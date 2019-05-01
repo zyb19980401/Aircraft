@@ -2,8 +2,8 @@ package e.chriszhang.aircraft;
 
 public class Missile extends FlyingObject implements Runnable {
     private EnemyAirCraft target;
-    private int targetX;
-    private int targetY;
+    private float targetX;
+    private float targetY;
     private float speedX;
     private float speedY;
     private float missileX;
@@ -29,7 +29,7 @@ public class Missile extends FlyingObject implements Runnable {
         this.running = running;
     }
 
-    public void update(EnemyAirCraft target, int X, int Y){
+    public void update(EnemyAirCraft target, float X, float Y){
         this.target = target;
         this.targetX = X;
         this.targetY = Y;
@@ -45,9 +45,25 @@ public class Missile extends FlyingObject implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            SetY(getRectangle().top + speedY);
-            SetX(getRectangle().left + speedX);
+
+//            System.out.println("the new updated x y is " + targetX  + targetY);
+            if(targetX == 0 && targetY == 0) {
+                SetY(getRectangle().top + speedY);
+                SetX(getRectangle().left + speedX);
+            }
+            else if(targetX == -1 && targetY == -1){
+                SetY(getRectangle().top + speedY);
+                SetX(getRectangle().left + speedX);
+            }
+
+            else{
+                float NewspeedY = (targetY - getRectangle().top)/ 30;
+                float NewspeedX = (targetX - getRectangle().left)/ 30;
+                SetY(getRectangle().top + NewspeedY);
+                SetX(getRectangle().left + NewspeedX);
+            }
             running = getRectangle().top + getHeight() > 0;
+            try{
             for (AirCraft airCraft : getSkyManager().getEnemyAirCraftList()) { // check enemyaircraftlist
                 if (this.isHitBy(airCraft)) {
                     airCraft.setRunning(false);
@@ -55,6 +71,10 @@ public class Missile extends FlyingObject implements Runnable {
                     break;
                 }
                 running = getRectangle().top < getSkyManager().getHeight();
+            }
+        }
+        catch(java.util.ConcurrentModificationException exception){
+                //
             }
         }
         getSkyManager().removeMissileList(this);

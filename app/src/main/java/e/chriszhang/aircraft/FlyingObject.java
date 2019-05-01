@@ -109,16 +109,22 @@ public class FlyingObject {
      * A helper function.
      */
     boolean checkLeftHit(float px, FlyingObject objSelf, FlyingObject obj) {
+        if(objSelf != null && obj != null){
         return objSelf.getRectangle().left - obj.getRectangle().left + px <= obj.getWidth()
                 && obj.getRectangle().left - objSelf.getRectangle().left + 3 * px <= this.getWidth();
+        }
+        return false;
     }
 
     /**
      * A helper function.
      */
     boolean checkTopHit(float px, FlyingObject objSelf, FlyingObject obj) {
-        return objSelf.getRectangle().top + px - obj.getRectangle().top <= obj.getHeight()
-                && obj.getRectangle().top - objSelf.getRectangle().top + 3 * px <= objSelf.getHeight();
+        if(objSelf != null && obj != null) {
+            return objSelf.getRectangle().top + px - obj.getRectangle().top <= obj.getHeight()
+                    && obj.getRectangle().top - objSelf.getRectangle().top + 3 * px <= objSelf.getHeight();
+        }
+        return false;
     }
 
 

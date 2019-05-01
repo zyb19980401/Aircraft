@@ -29,6 +29,7 @@ public class EnemyAirCraft extends AirCraft{
         }
         if(!obs.contains(missile)){
             obs.addElement(missile);
+            System.out.println("observer added!!!!");
         }
     }
 
@@ -36,12 +37,10 @@ public class EnemyAirCraft extends AirCraft{
         obs.removeElement(missile);
     }
 
-    public void notifyObservers(int X, int Y){
+    public void notifyObservers(float X, float Y){
         Object[] arrLocal;
 
         synchronized(this){
-            if(!changed)
-                return;
             arrLocal = obs.toArray();
             clearChanged();
         }
@@ -76,8 +75,11 @@ public class EnemyAirCraft extends AirCraft{
         while (isRunning() && getSkyManager().isRunning()) {
             try {
                 Thread.sleep(50);
-                SetY((getRectangle().top + speedY * getSkyManager().getRate()));
-                SetX((getRectangle().left + speedX * getSkyManager().getRate()));
+                float newX = getRectangle().left + speedX * getSkyManager().getRate();
+                float newY = getRectangle().top + speedY * getSkyManager().getRate();
+                SetY(newY);
+                SetX(newX);
+                notifyObservers(newX, newY);
                 if(this.isRunning()&&this.isHitBy(getSkyManager().getMyAircraft())){
                     setRunning(false);
                     getSkyManager().getMyAircraft().decreaseHP();
@@ -89,6 +91,8 @@ public class EnemyAirCraft extends AirCraft{
             if(isRunning()){
                 setRunning(getRectangle().top < getSkyManager().getHeight());}  //如果已经被HIt 已经为False
         }
+        notifyObservers( -1, -1);
+        deleteObservers();
         while(getExploingState() < 4){
             try{Thread.sleep(100);
                 int a = getExploingState();

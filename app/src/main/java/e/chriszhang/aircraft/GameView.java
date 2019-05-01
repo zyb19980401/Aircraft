@@ -255,6 +255,9 @@ public class GameView extends View {
             e.printStackTrace();
             System.out.println("ConcurrentModificationException");
         }
+        catch(java.lang.NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     /*

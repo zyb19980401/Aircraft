@@ -41,6 +41,7 @@ public class Bullet extends FlyingObject implements Runnable{
 
     @Override
     public void run(){
+        try{
         while(running && getSkyManager().isRunning()){
             try{
                 Thread.sleep(5);
@@ -65,6 +66,9 @@ public class Bullet extends FlyingObject implements Runnable{
                 }
                 running = getRectangle().top < getSkyManager().getHeight();
             }
+        }
+        }catch(java.util.ConcurrentModificationException exception){
+            //
         }
 
         if(airCraft instanceof  MyAircraft){
