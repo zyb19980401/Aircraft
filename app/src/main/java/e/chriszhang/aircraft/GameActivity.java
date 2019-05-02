@@ -89,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
      */
     private void createTimer() {
         final Handler handler = new Handler();
-        final int delay = 1000; //milliseconds
+        final int delay = 200; //milliseconds
         handler.postDelayed(new Runnable() {
             public void run() {
                 if (skyManager.isRunning()){

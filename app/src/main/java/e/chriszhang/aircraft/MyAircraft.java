@@ -1,6 +1,8 @@
 package e.chriszhang.aircraft;
 
 
+import java.util.List;
+import java.util.Random;
 
 /**
  * The MyAircraft class.
@@ -27,6 +29,13 @@ public class MyAircraft extends AirCraft {
     private int weaponType;
 
     /**
+     * the time checker for the missile
+     */
+    private int missileStartTime;
+
+    private int bulletStartTime;
+
+    /**
      * The constructor of the MyAircraft class.
      */
     MyAircraft() {
@@ -37,6 +46,7 @@ public class MyAircraft extends AirCraft {
         SetX(getSkyManager().getWidth() / 2 - this.getWidth() / 2);
         SetY(getSkyManager().getHeight() * 0.7f - this.getHeight() / 2);
         new Thread(this).start();
+        bulletStartTime = 0;
     }
 
     /**
@@ -46,10 +56,78 @@ public class MyAircraft extends AirCraft {
         numKilled++;
     }
 
+    /**
+     * return if the time period is long enough to generate a new Bullet or Missile
+     */
+    boolean checkTime(int timeStart, int timePeriod){
+        int timeDiff = getSkyManager().getmTimeLeftInMillis() - timeStart;
+        if(timeDiff >= timePeriod){
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void run() {
         while (getSkyManager().isRunning()) {
-            super.run();
+            try {
+                    Thread.sleep(50);
+                    float x = this.getRectangle().left + this.getWidth() / 2 - 50 * getSkyManager().getRate() / 2;
+                    float y = this.getRectangle().top - 50 * getSkyManager().getRate() / 2;
+
+                    boolean newBullet = checkTime(bulletStartTime, 300);
+                    boolean newMissile = checkTime(missileStartTime, 2000);
+                    int currentTime = getSkyManager().getmTimeLeftInMillis();
+                    switch (this.getWeaponType()) {
+                        case 1:
+                            if(newBullet) {
+                                new Bullet(this, x - (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
+                                new Bullet(this, x + (getWidth() - 100), y, 0, -6 * getSkyManager().getRate());
+                            bulletStartTime = currentTime;
+                            }
+                            break;
+                        case 2:
+                            if(newBullet) {
+                                new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
+                                bulletStartTime = currentTime;
+                            }
+                            if(newMissile) {
+                                List<EnemyAirCraft> enemyAirCrafts = getSkyManager().getEnemyAirCraftList();
+                                int min = 0;
+                                int max = enemyAirCrafts.size();
+                                if (max > 0) {
+                                    Random randomNum = new Random();
+                                    int leftMissileTarget = min + randomNum.nextInt(max);
+                                    int rightMissileTarget = min + randomNum.nextInt(max);
+                                    Missile leftMissile = new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
+                                    Missile rightMissile = new Missile(x + (getWidth() - 150), y, 0, -6 * getSkyManager().getRate());
+
+                                    try {
+                                        enemyAirCrafts.get(leftMissileTarget).addObserver(leftMissile);
+                                        enemyAirCrafts.get(rightMissileTarget).addObserver(rightMissile);
+                                    } catch (java.lang.NullPointerException e) {
+                                        e.printStackTrace();
+                                    }
+                                    missileStartTime = currentTime;
+                                } else {
+                                    new Missile(x - (getWidth()), y, 0, -6 * getSkyManager().getRate());
+                                    new Missile(x + (getWidth() - 150), y, 0, -6 * getSkyManager().getRate());
+                                    missileStartTime = currentTime;
+                                }
+                            }
+                            break;
+                        default:
+                            if(newBullet) {
+                                new Bullet(this, x, y, 0, -6 * getSkyManager().getRate());
+                                bulletStartTime = currentTime;
+                            }
+                    }
+
+
+            }
+            catch(InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }}}

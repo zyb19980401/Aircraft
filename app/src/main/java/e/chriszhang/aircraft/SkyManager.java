@@ -43,7 +43,7 @@ public class SkyManager extends Observable implements Runnable {
 
 
     void addTime() {
-        mTimeLeftInMillis += 1000;
+        mTimeLeftInMillis += 200;
     }
 
 
