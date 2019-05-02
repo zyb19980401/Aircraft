@@ -1,5 +1,7 @@
 package e.chriszhang.aircraft;
 
+import android.graphics.PointF;
+
 public class Missile extends FlyingObject implements Runnable {
     private EnemyAirCraft target;
     private float targetX;
@@ -8,6 +10,12 @@ public class Missile extends FlyingObject implements Runnable {
     private float speedY;
     private float missileX;
     private float missileY;
+
+    public int getRotatingDegree() {
+        return rotatingDegree;
+    }
+
+    private int rotatingDegree;
     private boolean running;
 
 
@@ -33,6 +41,23 @@ public class Missile extends FlyingObject implements Runnable {
         this.target = target;
         this.targetX = X;
         this.targetY = Y;
+        calculateroating();
+    }
+
+    public void calculateroating(){
+        //Case 1, target is above missile
+        PointF origin = new PointF(missileX, missileY);
+        PointF missiletop = new PointF(missileX, missileY + 10);
+        PointF target = new PointF(targetX, targetY);
+        rotatingDegree = (int)angleBetween2Lines(origin, missiletop, origin, target);
+
+    }
+    public static float angleBetween2Lines(PointF A1, PointF A2, PointF B1, PointF B2) {
+        float angle1 = (float) Math.atan2(A2.y - A1.y, A1.x - A2.x);
+        float angle2 = (float) Math.atan2(B2.y - B1.y, B1.x - B2.x);
+        float calculatedAngle = (float) Math.toDegrees(angle1 - angle2);
+        if (calculatedAngle < 0) calculatedAngle += 360;
+        return calculatedAngle;
     }
 
 
@@ -52,6 +77,7 @@ public class Missile extends FlyingObject implements Runnable {
                 SetX(getRectangle().left + speedX);
             }
             else if(targetX == -1 && targetY == -1){
+                rotatingDegree = 0;
                 SetY(getRectangle().top + speedY);
                 SetX(getRectangle().left + speedX);
             }

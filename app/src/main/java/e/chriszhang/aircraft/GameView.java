@@ -5,7 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -196,7 +198,7 @@ public class GameView extends View {
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
         drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
-        drawList(g, skyManager.getMissileList(), missile);
+        drawMissileList(g, skyManager.getMissileList(), missile);
         drawHp(g);
         drawTime(g);
         drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
@@ -235,6 +237,28 @@ public class GameView extends View {
             System.out.println("NullPointerException");
         }
     }
+    protected  void drawMissileList(Canvas g, List<Missile> list, Bitmap image){
+        try{
+            Bitmap bInput = image;
+            for(Missile i : list){
+                int Rotatingdegree = i.getRotatingDegree();
+                int degrees = 0;
+                if(Rotatingdegree!= 0){
+                    degrees = Rotatingdegree + 180;
+                }
+                //rotation degree
+                Bitmap bOutput = rotateBitmap(bInput, degrees);
+                g.drawBitmap(bOutput, null, i.getRectangle(),p);
+            }}catch(ConcurrentModificationException e){
+            e.printStackTrace();
+            System.out.println("ConcurrentModificationException");
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+            System.out.println("NullPointerException");
+        }
+    }
+
 
     protected  void drawListaircrafts(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
         try{
@@ -258,6 +282,33 @@ public class GameView extends View {
         catch(java.lang.NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+
+    private Bitmap rotateBitmap(Bitmap bitmap, int rotationAngleDegree){
+
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        int newW=w, newH=h;
+        if (rotationAngleDegree==90 || rotationAngleDegree==270){
+            newW = h;
+            newH = w;
+        }
+        Bitmap rotatedBitmap = Bitmap.createBitmap(newW,newH, bitmap.getConfig());
+        Canvas canvas = new Canvas(rotatedBitmap);
+
+        Rect rect = new Rect(0,0,newW, newH);
+        Matrix matrix = new Matrix();
+        float px = rect.exactCenterX();
+        float py = rect.exactCenterY();
+        matrix.postTranslate(-bitmap.getWidth()/2, -bitmap.getHeight()/2);
+        matrix.postRotate(rotationAngleDegree);
+        matrix.postTranslate(px, py);
+        canvas.drawBitmap(bitmap, matrix, new Paint( Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG ));
+        matrix.reset();
+
+        return rotatedBitmap;
     }
 
     /*
