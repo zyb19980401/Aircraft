@@ -21,17 +21,22 @@ public class Bullet extends FlyingObject implements Runnable{
         this.speedY = speedY;
         this.bulletX = bulletX;
         this.bulletY = bulletY;
-        setWidth(200 * getSkyManager().getRate());
-        setHeight(200 * getSkyManager().getRate());
-        SetX(bulletX - getWidth()/3);
-        SetY(bulletY - getHeight()/2);
         if (airCraft instanceof MyAircraft){
             flyingUp = true;
             getSkyManager().addMyBulletLIst(this);
+            setWidth(200 * getSkyManager().getRate());
+            setHeight(200 * getSkyManager().getRate());
+            SetX(bulletX - getWidth()/3);
+            SetY(bulletY - getHeight()/2);
         }
         else if( airCraft instanceof EnemyAirCraft){  // set the bullet to corresponding aircraft's bullet list  list
             getSkyManager().addEnemyBulletList(this);
+            setWidth(50 * getSkyManager().getRate());
+            setHeight(50 * getSkyManager().getRate());
+            SetX(bulletX - getWidth()/3);
+            SetY(bulletY - getHeight()/2);
         }
+
         setRunning(true);
         new Thread(this).start();
     }

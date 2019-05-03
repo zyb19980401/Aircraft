@@ -27,6 +27,12 @@ public class SkyManager extends Observable implements Runnable {
         return SmallEnemyAircraftList;
     }
 
+    public List<MediumEnemyAirCraft> getMediumEnemyAirCraftList() {
+        return mediumEnemyAirCraftList;
+    }
+
+    private List<MediumEnemyAirCraft> mediumEnemyAirCraftList = Collections.synchronizedList (new ArrayList<>());
+
     private List<SmallEnemyAirCraft> SmallEnemyAircraftList = Collections.synchronizedList (new ArrayList<>());
 
     private List<Bullet>  MyBulletLIst = Collections.synchronizedList (new ArrayList<>());
@@ -131,6 +137,8 @@ public class SkyManager extends Observable implements Runnable {
 
     public void removeSmallEnemyAirCraftList(SmallEnemyAirCraft smallEnemyAirCraft){ SmallEnemyAircraftList.remove(smallEnemyAirCraft);}
 
+    public void removeMediumEnemyAirCraftList(MediumEnemyAirCraft mediumEnemyAirCraft){ mediumEnemyAirCraftList.remove(mediumEnemyAirCraft);}
+
     public void removePowerUpItem(PowerUpItem item) {
         PowerUpItemList.remove(item);
     }
@@ -142,6 +150,10 @@ public class SkyManager extends Observable implements Runnable {
 
     public void addMissileList(Missile missile){
         MissileList.add(missile);
+    }
+
+    public void addMediumEnemyAirCraftList(MediumEnemyAirCraft mediumEnemyAirCraft){
+        mediumEnemyAirCraftList.add(mediumEnemyAirCraft);
     }
 
     public void removeMissileList(Missile missile){
@@ -216,9 +228,9 @@ public class SkyManager extends Observable implements Runnable {
                 float x2 = (float) (Math.random() * (getWidth() - 100));
 
                 float y = 0;  // small enemyAircraft;s height
-                new SmallEnemyAirCraft(x0, y, 0, 20);
-                new SmallEnemyAirCraft(x1, y, 0, 20);
-                new SmallEnemyAirCraft(x2, y, 0, 20);
+                new MediumEnemyAirCraft(x0, y, 0, 20);
+                new MediumEnemyAirCraft(x1, y, 0, 20);
+                new MediumEnemyAirCraft(x2, y, 0, 20);
 //                 System.out.println("this is the enenmy aircraft list!" + getEnemyAirCraftList().size());
             }
             catch(Exception e){

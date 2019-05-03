@@ -53,8 +53,9 @@ public class GameView extends View {
     RectF timeSec = new RectF();
     RectF timeMilisec = new RectF();
 
+    private List smallEnemy = new ArrayList<Bitmap>();
 
-    private List temp  = new ArrayList<Bitmap>();
+    private List mediumEnmey = new ArrayList<Bitmap>();
 
     private List timers = new ArrayList<Bitmap>();
 
@@ -94,11 +95,11 @@ public class GameView extends View {
     }
 
     private void setPictureList(){
-        temp.add(smallAircraft0);
-        temp.add(smallAircraft1);
-        temp.add(smallAircraft2);
-        temp.add(smallAircraft3);
-        temp.add(smallAircraft4);
+        smallEnemy.add(smallAircraft0);
+        smallEnemy.add(smallAircraft1);
+        smallEnemy.add(smallAircraft2);
+        smallEnemy.add(smallAircraft3);
+        smallEnemy.add(smallAircraft4);
 
         //need to use a helper, and should not be in onDraw.
 //        List timers = new ArrayList<Bitmap>();
@@ -116,6 +117,13 @@ public class GameView extends View {
         defautBullets.add(bullet);
         defautBullets.add(bullet1);
         defautBullets.add(bullet2);
+        //
+        mediumEnmey.add(mediumAircraft0);
+        mediumEnmey.add(mediumAircraft1);
+        mediumEnmey.add(mediumAircraft2);
+        mediumEnmey.add(mediumAircraft3);
+        mediumEnmey.add(mediumAircraft4);
+
 
     }
 
@@ -173,6 +181,7 @@ public class GameView extends View {
     // Load images of my crafts, enemy crafts, bullet and background
     private Bitmap myAircraft = BitmapFactory.decodeResource(getResources(), R.mipmap.myaircraft);//加载图片
     private Bitmap background = BitmapFactory.decodeResource(getResources(), R.mipmap.background);
+    private Bitmap bulletenemy = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet1);
     private Bitmap bullet = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3a);
     private Bitmap bullet2 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3b);
     private Bitmap bullet1 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3c);
@@ -181,6 +190,13 @@ public class GameView extends View {
     private Bitmap smallAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane2);
     private Bitmap smallAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane3);
     private Bitmap smallAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane4);
+    private Bitmap mediumAircraft0 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane0);
+    private Bitmap mediumAircraft1 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane1);
+    private Bitmap mediumAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane2);
+    private Bitmap mediumAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane3);
+    private Bitmap mediumAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane4);
+    private Bitmap mediumAircrafthit = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplanehit);
+
     private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerup);
     private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
@@ -207,11 +223,14 @@ public class GameView extends View {
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
 //        drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawBulletLIst(g,skyManager.getMyBulletLIst(),defautBullets);
+        drawList(g,skyManager.getEnemyBulletList(),bulletenemy);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
         drawMissileList(g, skyManager.getMissileList(), missile);
         drawHp(g);
         drawTime(g);
-        drawListaircrafts(g,skyManager.getSmallEnemyAircraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
+//        drawListaircrafts(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // 用HashMap 重新写 整理出一个Funciton.
+        drawListaircrafts(g,skyManager.getMediumEnemyAirCraftList(), mediumEnmey);  // 用HashMap 重新写 整理出一个Funciton.
+
     }
 
     protected void drawHp(Canvas g){
