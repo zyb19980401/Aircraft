@@ -26,6 +26,10 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
         getSkyManager().addMediumEnemyAirCraftList(this);
         bulletStartTime = getSkyManager().getmTimeLeftInMillis();
         new Thread(this).start();
+
+
+
+
     }
 
     @Override
