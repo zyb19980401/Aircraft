@@ -58,6 +58,8 @@ public class GameView extends View {
 
     private List timers = new ArrayList<Bitmap>();
 
+    private List defautBullets = new ArrayList<Bitmap>();
+
     /**
      * Set the time part  x and y.
      */
@@ -110,6 +112,11 @@ public class GameView extends View {
         timers.add(timer7);
         timers.add(timer8);
         timers.add(timer9);
+        //
+        defautBullets.add(bullet);
+        defautBullets.add(bullet1);
+        defautBullets.add(bullet2);
+
     }
 
     protected void drawTime(Canvas g) {
@@ -166,7 +173,9 @@ public class GameView extends View {
     // Load images of my crafts, enemy crafts, bullet and background
     private Bitmap myAircraft = BitmapFactory.decodeResource(getResources(), R.mipmap.myaircraft);//加载图片
     private Bitmap background = BitmapFactory.decodeResource(getResources(), R.mipmap.background);
-    private Bitmap bullet = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet1);
+    private Bitmap bullet = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3a);
+    private Bitmap bullet2 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3b);
+    private Bitmap bullet1 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3c);
     private Bitmap smallAircraft0 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane0);
     private Bitmap smallAircraft1 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane1);
     private Bitmap smallAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.smallplane2);
@@ -196,12 +205,13 @@ public class GameView extends View {
         super.onDraw(g);
         g.drawBitmap(background, null, skyManager.getBackGround().getRectangle(), p);//draw background
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
-        drawList(g, skyManager.getMyBulletLIst(),bullet);
+//        drawList(g, skyManager.getMyBulletLIst(),bullet);
+        drawBulletLIst(g,skyManager.getMyBulletLIst(),defautBullets);
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
         drawMissileList(g, skyManager.getMissileList(), missile);
         drawHp(g);
         drawTime(g);
-        drawListaircrafts(g,skyManager.getEnemyAirCraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
+        drawListaircrafts(g,skyManager.getSmallEnemyAircraftList(),temp);  // 用HashMap 重新写 整理出一个Funciton.
     }
 
     protected void drawHp(Canvas g){
@@ -274,6 +284,28 @@ public class GameView extends View {
                     g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
                 else if(i.getExploingState() ==4){
                     g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
+            }
+        }catch(ConcurrentModificationException e){
+            e.printStackTrace();
+            System.out.println("ConcurrentModificationException");
+        }
+        catch(java.lang.NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    protected  void drawBulletLIst(Canvas g, List<? extends Bullet> list, List<Bitmap> images){
+        try{
+            for(Bullet i : list){
+                if (i.getExploingState() ==0){
+                    System.out.println("exlotion state  为 0000");
+                    g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
+                else if(i.getExploingState() ==1){
+                    System.out.println("exlotion state  为 1111");
+                    g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
+                else if(i.getExploingState() ==2){
+                    System.out.println("exlotion state  为 2222");
+                    g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
             }
         }catch(ConcurrentModificationException e){
             e.printStackTrace();

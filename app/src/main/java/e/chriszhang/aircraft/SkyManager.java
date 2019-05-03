@@ -23,6 +23,12 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<EnemyAirCraft> EnemyAirCraftList = Collections.synchronizedList (new ArrayList<>());
 
+    public List<SmallEnemyAirCraft> getSmallEnemyAircraftList() {
+        return SmallEnemyAircraftList;
+    }
+
+    private List<SmallEnemyAirCraft> SmallEnemyAircraftList = Collections.synchronizedList (new ArrayList<>());
+
     private List<Bullet>  MyBulletLIst = Collections.synchronizedList (new ArrayList<>());
 
     private List<PowerUpItem>  PowerUpItemList = Collections.synchronizedList (new ArrayList<>());
@@ -110,6 +116,7 @@ public class SkyManager extends Observable implements Runnable {
 
     public void removeMyBulletLIst(Bullet bullet) {
         MyBulletLIst.remove(bullet);
+        System.out.println("我被移除了");
     }
 
 
@@ -121,6 +128,8 @@ public class SkyManager extends Observable implements Runnable {
     public void removeEnemyAirCraftList(AirCraft airCraft) {
         EnemyAirCraftList.remove(airCraft);
     }
+
+    public void removeSmallEnemyAirCraftList(SmallEnemyAirCraft smallEnemyAirCraft){ SmallEnemyAircraftList.remove(smallEnemyAirCraft);}
 
     public void removePowerUpItem(PowerUpItem item) {
         PowerUpItemList.remove(item);
@@ -151,6 +160,8 @@ public class SkyManager extends Observable implements Runnable {
     public void addEnemyBulletList(Bullet bullet) {
         EnemyBulletList.add(bullet);
     }
+
+    public void addSmallEnemyAircraftList(SmallEnemyAirCraft smallEnemyAirCraft){ SmallEnemyAircraftList.add(smallEnemyAirCraft);}
 
     public void addPowerUpItem(PowerUpItem item){
         PowerUpItemList.add(item);

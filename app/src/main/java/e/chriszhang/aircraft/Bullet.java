@@ -9,6 +9,8 @@ public class Bullet extends FlyingObject implements Runnable{
     private float bulletY;
     private  boolean flyingUp;
     private boolean running;
+    private int exploingState;
+    private boolean isExploding = false;
 
 
 
@@ -19,10 +21,10 @@ public class Bullet extends FlyingObject implements Runnable{
         this.speedY = speedY;
         this.bulletX = bulletX;
         this.bulletY = bulletY;
-        setWidth(50 * getSkyManager().getRate());
-        setHeight(50 * getSkyManager().getRate());
-        SetX(bulletX);
-        SetY(bulletY);
+        setWidth(200 * getSkyManager().getRate());
+        setHeight(200 * getSkyManager().getRate());
+        SetX(bulletX - getWidth()/3);
+        SetY(bulletY - getHeight()/2);
         if (airCraft instanceof MyAircraft){
             flyingUp = true;
             getSkyManager().addMyBulletLIst(this);
@@ -33,6 +35,15 @@ public class Bullet extends FlyingObject implements Runnable{
         setRunning(true);
         new Thread(this).start();
     }
+
+    public int getExploingState() {
+        return exploingState;
+    }
+
+    public void setExploingState(int exploingState) {
+        this.exploingState = exploingState;
+    }
+
 
     void setRunning( boolean running){
         this.running = running;
@@ -52,12 +63,16 @@ public class Bullet extends FlyingObject implements Runnable{
             SetY(getRectangle().top + speedY);
             SetX(getRectangle().left + speedX);
             if (flyingUp) {
-                running = getRectangle().top + getHeight() > 0;
                 for (AirCraft airCraft: getSkyManager().getEnemyAirCraftList()){ // check enemyaircraftlist
                     if(this.isHitBy(airCraft)){
                         airCraft.setRunning(false);
                         this.setRunning(false);
+                        isExploding = true;
+                        break;
                     }
+                }
+                if(running) {
+                    running = getRectangle().top + getHeight() > 0;
                 }
             }
             else {
@@ -67,11 +82,27 @@ public class Bullet extends FlyingObject implements Runnable{
                 running = getRectangle().top < getSkyManager().getHeight();
             }
         }
+        SetX(getRectangle().left);
+        SetY(getRectangle().top);
+
+        if(isExploding) {
+            System.out.println("我在爆炸啦啊啊啊啊啊啊啊");
+            while (getExploingState() < 3) {
+                try {
+                    Thread.sleep(100);
+                    int a = getExploingState();
+                    setExploingState(a + 1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         }catch(java.util.ConcurrentModificationException exception){
             //
         }
 
         if(airCraft instanceof  MyAircraft){
+            System.out.println("我被移除了aaaaa");
             getSkyManager().removeMyBulletLIst(this);
         }
         else if(airCraft instanceof EnemyAirCraft){
