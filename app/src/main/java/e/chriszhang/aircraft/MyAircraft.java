@@ -28,6 +28,14 @@ public class MyAircraft extends AirCraft {
      */
     private int weaponType;
 
+    public int getMissileStartTime() {
+        return missileStartTime;
+    }
+
+    public void setMissileStartTime(int missileStartTime) {
+        this.missileStartTime = missileStartTime;
+    }
+
     /**
      * the time checker for the missile
      */
@@ -56,16 +64,6 @@ public class MyAircraft extends AirCraft {
         numKilled++;
     }
 
-    /**
-     * return if the time period is long enough to generate a new Bullet or Missile
-     */
-    boolean checkTime(int timeStart, int timePeriod){
-        int timeDiff = getSkyManager().getmTimeLeftInMillis() - timeStart;
-        if(timeDiff >= timePeriod){
-            return true;
-        }
-        return false;
-    }
 
 
     @Override
@@ -76,7 +74,7 @@ public class MyAircraft extends AirCraft {
                     float x = this.getRectangle().left + this.getWidth() / 2 - 50 * getSkyManager().getRate() / 2;
                     float y = this.getRectangle().top - 50 * getSkyManager().getRate() / 2;
 
-                    boolean newBullet = checkTime(bulletStartTime, 300);
+                    boolean newBullet = checkTime(bulletStartTime, 1000);
                     boolean newMissile = checkTime(missileStartTime, 2000);
                     int currentTime = getSkyManager().getmTimeLeftInMillis();
                     switch (this.getWeaponType()) {

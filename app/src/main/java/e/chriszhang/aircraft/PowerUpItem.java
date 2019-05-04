@@ -47,7 +47,7 @@ public class PowerUpItem extends  FlyingObject implements  Runnable {
             if (isHitBy(getSkyManager().getMyAircraft())){
                 if( getSkyManager().getMyAircraft().getWeaponType() == 1){
                     getSkyManager().getMyAircraft().setWeaponType(2);
-                    getSkyManager().getMyAircraft().setStartTime((getSkyManager().getmTimeLeftInMillis() / 1000) % 60);
+                    getSkyManager().getMyAircraft().setMissileStartTime((getSkyManager().getmTimeLeftInMillis() / 1000) % 60);
                 }
                 else if(getSkyManager().getMyAircraft().getWeaponType() == 0) {
                     getSkyManager().getMyAircraft().setWeaponType(1);

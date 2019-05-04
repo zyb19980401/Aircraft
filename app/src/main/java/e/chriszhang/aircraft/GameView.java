@@ -42,51 +42,52 @@ public class GameView extends View {
     private static int bulletStyle = R.mipmap.bullet1;
 
     /**
-     * the Hp heart in the game.
+     * the Hp heart in the game, there are at most three hearts.
      */
     RectF heart1 = new RectF();
     RectF heart2 = new RectF();
     RectF heart3 = new RectF();
+
+    /**
+     * the time images in the game, there are five elements of the timer.
+     */
     RectF timeTenMin = new RectF();
     RectF timeMin = new RectF();
     RectF timeDot = new RectF();
     RectF timeSec = new RectF();
-    RectF timeMilisec = new RectF();
+    RectF timePointSec = new RectF();
 
-    private List smallEnemy = new ArrayList<Bitmap>();
+    private List<Bitmap> smallEnemy = new ArrayList<Bitmap>();
 
-    private List mediumEnmey = new ArrayList<Bitmap>();
+    private List<Bitmap> mediumEnemy = new ArrayList<Bitmap>();
 
-    private List timers = new ArrayList<Bitmap>();
+    private List<Bitmap> timers = new ArrayList<Bitmap>();
 
-    private List defautBullets = new ArrayList<Bitmap>();
+    private List<Bitmap> defaultBullets = new ArrayList<Bitmap>();
 
     /**
      * Set the time part  x and y.
      */
     private void setTime(){
-        timeMilisec.left = 1000;
-        timeMilisec.right = 1050;
-        timeMilisec.top = 0;
-        timeMilisec.bottom = 75;
+        timePointSec.left = 1000;
+        timePointSec.right = 1050;
+        timePointSec.top = 0;
+        timePointSec.bottom = 75;
 
         timeSec.left = 950;
         timeSec.right = 1000;
         timeSec.top = 0;
         timeSec.bottom = 75;
 
-
         timeDot.left = 925;
         timeDot.right = 950;
         timeDot.top = 0;
         timeDot.bottom = 75;
 
-
         timeMin.left = 875;
         timeMin.right = 925;
         timeMin.top = 0;
         timeMin.bottom = 75;
-
 
         timeTenMin.left = 825;
         timeTenMin.right = 875;
@@ -100,7 +101,6 @@ public class GameView extends View {
         smallEnemy.add(smallAircraft2);
         smallEnemy.add(smallAircraft3);
         smallEnemy.add(smallAircraft4);
-
         //need to use a helper, and should not be in onDraw.
 //        List timers = new ArrayList<Bitmap>();
         timers.add(timer0);
@@ -114,36 +114,32 @@ public class GameView extends View {
         timers.add(timer8);
         timers.add(timer9);
         //
-        defautBullets.add(bullet);
-        defautBullets.add(bullet1);
-        defautBullets.add(bullet2);
+        defaultBullets.add(bullet);
+        defaultBullets.add(bullet1);
+        defaultBullets.add(bullet2);
         //
-        mediumEnmey.add(mediumAircraft0);
-        mediumEnmey.add(mediumAircraft1);
-        mediumEnmey.add(mediumAircraft2);
-        mediumEnmey.add(mediumAircraft3);
-        mediumEnmey.add(mediumAircraft4);
-
-
+        mediumEnemy.add(mediumAircraft0);
+        mediumEnemy.add(mediumAircraft1);
+        mediumEnemy.add(mediumAircraft2);
+        mediumEnemy.add(mediumAircraft3);
+        mediumEnemy.add(mediumAircraft4);
     }
 
     protected void drawTime(Canvas g) {
         int timer = skyManager.getmTimeLeftInMillis();
-
         int minutes = (timer / 1000) / 60;
         int seconds = (timer / 1000) % 60;
         String result = String.format("%02d%02d", minutes, seconds);
         setTime();
-        int milsec = Character.getNumericValue(result.charAt(3));  //this is the number of 0.1sec
+        int pointSec = Character.getNumericValue(result.charAt(3));  //this is the number of 0.1sec
         int sec = Character.getNumericValue(result.charAt(2));      //this is the number of sec
         int min = Character.getNumericValue(result.charAt(1));      //this is the number of one min
-        int tenmin = Character.getNumericValue(result.charAt(0));   //this is the number of ten min
-
-        g.drawBitmap((Bitmap) timers.get(milsec), null, timeMilisec, p);
-        g.drawBitmap((Bitmap) timers.get(sec), null, timeSec, p);
+        int tenMin = Character.getNumericValue(result.charAt(0));   //this is the number of ten min
+        g.drawBitmap(timers.get(pointSec), null, timePointSec, p);
+        g.drawBitmap(timers.get(sec), null, timeSec, p);
         g.drawBitmap(timerDot, null, timeDot, p);
-        g.drawBitmap((Bitmap) timers.get(min), null, timeMin, p);
-        g.drawBitmap((Bitmap) timers.get(tenmin), null, timeTenMin, p);
+        g.drawBitmap(timers.get(min), null, timeMin, p);
+        g.drawBitmap(timers.get(tenMin), null, timeTenMin, p);
     }
 
 
@@ -167,6 +163,7 @@ public class GameView extends View {
         heart3.right = 300;
         heart3.top = 100;
     }
+
     /**
      * The constructor of the game view.
      */
@@ -177,11 +174,10 @@ public class GameView extends View {
         setPictureList();
         new Thread(new reDraw()).start();
     }
-
     // Load images of my crafts, enemy crafts, bullet and background
-    private Bitmap myAircraft = BitmapFactory.decodeResource(getResources(), R.mipmap.myaircraft);//加载图片
+    private Bitmap myAircraft = BitmapFactory.decodeResource(getResources(), R.mipmap.myaircraft);
     private Bitmap background = BitmapFactory.decodeResource(getResources(), R.mipmap.background);
-    private Bitmap bulletenemy = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet1);
+    private Bitmap bulletEnemy = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet1);
     private Bitmap bullet = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3a);
     private Bitmap bullet2 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3b);
     private Bitmap bullet1 = BitmapFactory.decodeResource(getResources(), R.mipmap.bullet3c);
@@ -196,7 +192,6 @@ public class GameView extends View {
     private Bitmap mediumAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane3);
     private Bitmap mediumAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane4);
     private Bitmap mediumAircrafthit = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplanehit);
-
     private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerup);
     private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
@@ -212,25 +207,20 @@ public class GameView extends View {
     private Bitmap timer9 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer9);
     private Bitmap timerDot = BitmapFactory.decodeResource(getResources(), R.mipmap.timerdot);
 
-
-
-
-
     @Override
     protected void onDraw(Canvas g) {// draw everything on the screen
         super.onDraw(g);
-        g.drawBitmap(background, null, skyManager.getBackGround().getRectangle(), p);//draw background
-        g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);
+        g.drawBitmap(background, null, skyManager.getBackGround().getRectangle(), p);   //draw background
+        g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);   //draw my aircraft
 //        drawList(g, skyManager.getMyBulletLIst(),bullet);
-        drawBulletLIst(g,skyManager.getMyBulletLIst(),defautBullets);
-        drawList(g,skyManager.getEnemyBulletList(),bulletenemy);
-        drawList(g, skyManager.getPowerUpItemList(),powerUpItem);
-        drawMissileList(g, skyManager.getMissileList(), missile);
-        drawHp(g);
-        drawTime(g);
-//        drawListaircrafts(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // 用HashMap 重新写 整理出一个Funciton.
-        drawListaircrafts(g,skyManager.getMediumEnemyAirCraftList(), mediumEnmey);  // 用HashMap 重新写 整理出一个Funciton.
-
+        drawBulletList(g,skyManager.getMyBulletLIst(), defaultBullets);  //draw the default bullet list
+        drawList(g,skyManager.getEnemyBulletList(), bulletEnemy);   //draw the enemy bullet list
+        drawList(g, skyManager.getPowerUpItemList(),powerUpItem);   //draw power up items list
+        drawMissileList(g, skyManager.getMissileList(), missile);   //draw the missile list
+        drawHp(g);  //draw the three HP heart
+        drawTime(g);    //draw the timer onto the right-top
+        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
+        drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
     }
 
     protected void drawHp(Canvas g){
@@ -253,6 +243,9 @@ public class GameView extends View {
 
 
 
+    /**
+     * draw the the list based on image
+     */
     protected  void drawList(Canvas g, List<? extends FlyingObject> list, Bitmap image){
         try{
             for(FlyingObject i : list){
@@ -266,6 +259,10 @@ public class GameView extends View {
             System.out.println("NullPointerException");
         }
     }
+
+    /**
+     * draw the missile list
+     */
     protected  void drawMissileList(Canvas g, List<Missile> list, Bitmap image){
         try{
             Bitmap bInput = image;
@@ -289,19 +286,19 @@ public class GameView extends View {
     }
 
 
-    protected  void drawListaircrafts(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
+    protected  void drawAircraftsList(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
         try{
             for(AirCraft i : list){
-                if (i.getExploingState() ==0){
+                if (i.getExplodingState() ==0){
                     g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
-                else if(i.getExploingState() ==1){
+                else if(i.getExplodingState() ==1){
                     g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
 
-                else if(i.getExploingState() ==2){
+                else if(i.getExplodingState() ==2){
                     g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
-                else if(i.getExploingState() ==3){
+                else if(i.getExplodingState() ==3){
                     g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
-                else if(i.getExploingState() ==4){
+                else if(i.getExplodingState() ==4){
                     g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
             }
         }catch(ConcurrentModificationException e){
@@ -313,7 +310,7 @@ public class GameView extends View {
         }
     }
 
-    protected  void drawBulletLIst(Canvas g, List<? extends Bullet> list, List<Bitmap> images){
+    protected  void drawBulletList(Canvas g, List<? extends Bullet> list, List<Bitmap> images){
         try{
             for(Bullet i : list){
                 if (i.getExploingState() ==0){

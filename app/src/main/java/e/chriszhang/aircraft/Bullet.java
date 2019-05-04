@@ -70,7 +70,11 @@ public class Bullet extends FlyingObject implements Runnable{
             if (flyingUp) {
                 for (AirCraft airCraft: getSkyManager().getEnemyAirCraftList()){ // check enemyaircraftlist
                     if(this.isHitBy(airCraft)){
-                        airCraft.setRunning(false);
+                        airCraft.decreaseHP();
+                        System.out.println(airCraft.getHP());
+                        if(!airCraft.isStillHealth()) {
+                            airCraft.setRunning(false);
+                        }
                         this.setRunning(false);
                         isExploding = true;
                         break;
@@ -82,16 +86,18 @@ public class Bullet extends FlyingObject implements Runnable{
             }
             else {
                 if(this.isHitBy(getSkyManager().getMyAircraft())){
-                    System.out.println("撞到自己的飞机啦！！！！" );
+                    getSkyManager().getMyAircraft().decreaseHP();
+                    this.setRunning(false);
                 }
-                running = getRectangle().top < getSkyManager().getHeight();
+                if(running) {
+                    running = getRectangle().top < getSkyManager().getHeight();
+                }
             }
         }
         SetX(getRectangle().left);
         SetY(getRectangle().top);
 
         if(isExploding) {
-            System.out.println("我在爆炸啦啊啊啊啊啊啊啊");
             while (getExploingState() < 3) {
                 try {
                     Thread.sleep(100);
@@ -103,11 +109,10 @@ public class Bullet extends FlyingObject implements Runnable{
             }
         }
         }catch(java.util.ConcurrentModificationException exception){
-            //
+            exception.printStackTrace();
         }
 
         if(airCraft instanceof  MyAircraft){
-            System.out.println("我被移除了aaaaa");
             getSkyManager().removeMyBulletLIst(this);
         }
         else if(airCraft instanceof EnemyAirCraft){

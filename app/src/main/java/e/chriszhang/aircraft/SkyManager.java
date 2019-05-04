@@ -8,6 +8,11 @@ import java.util.Observable;
 
 public class SkyManager extends Observable implements Runnable {
 
+    SkyManager(){
+        this.startTime = 0;
+        this.newEnemyTime = 0;
+    }
+
     /**
      * The rate in order to adapt different screens.
      */
@@ -16,6 +21,10 @@ public class SkyManager extends Observable implements Runnable {
     private int width;
 
     private int height;
+
+    private int startTime;
+
+    private int newEnemyTime;
 
     public boolean isRunning(){return running;}
 
@@ -122,7 +131,6 @@ public class SkyManager extends Observable implements Runnable {
 
     public void removeMyBulletLIst(Bullet bullet) {
         MyBulletLIst.remove(bullet);
-        System.out.println("我被移除了");
     }
 
 
@@ -217,28 +225,60 @@ public class SkyManager extends Observable implements Runnable {
 
 
 
-
+    /**
+     * return if the time period is long enough to generate a new Bullet or Missile
+     */
+    boolean checkTime(int timeStart, int timePeriod){
+        int timeDiff = getmTimeLeftInMillis() - timeStart;
+        if(timeDiff >= timePeriod){
+            return true;
+        }
+        return false;
+    }
     @Override
     public void run(){  //这里控制GameState
         while (isRunning()){
+            boolean Medium = checkTime(startTime, 5000);
+            boolean NewEnmey = checkTime(newEnemyTime, 2000);
+            if(Medium){
+                startTime = getmTimeLeftInMillis();
+            }
+            if(NewEnmey){
+                newEnemyTime = getmTimeLeftInMillis();
+            }
             try {
-                Thread.sleep(1600);
+//                Thread.sleep(1600);
                 float x0 = (float) (Math.random() * (getWidth() - 100));
                 float x1 = (float) (Math.random() * (getWidth() - 100));
                 float x2 = (float) (Math.random() * (getWidth() - 100));
 
+                float x3 = (float) (Math.random() * (getWidth() - 100));
+                float x4 = (float) (Math.random() * (getWidth() - 100));
+                float x5 = (float) (Math.random() * (getWidth() - 100));
+
                 float y = 0;  // small enemyAircraft;s height
-                new MediumEnemyAirCraft(x0, y, 0, 20);
-                new MediumEnemyAirCraft(x1, y, 0, 20);
-                new MediumEnemyAirCraft(x2, y, 0, 20);
-//                 System.out.println("this is the enenmy aircraft list!" + getEnemyAirCraftList().size());
+
+                if(!Medium){
+                    if(NewEnmey) {
+                        new SmallEnemyAirCraft(x0, y, 0, 20);
+                        new SmallEnemyAirCraft(x1, y, 0, 20);
+                        new SmallEnemyAirCraft(x2, y, 0, 20);
+                    }
+                }
+                else {
+                    if (NewEnmey) {
+                        new MediumEnemyAirCraft(x3, y, 0, 20);
+                        new MediumEnemyAirCraft(x4, y, 0, 20);
+                        new MediumEnemyAirCraft(x5, y, 0, 20);
+                    }
+                }
             }
             catch(Exception e){
                 e.printStackTrace();
             }
 
             try {
-                Thread.sleep(1600);
+                Thread.sleep(3000);
                 float x = (float) (Math.random() * (getWidth() - 100));
                 float y = 0;  // small enemyAircraft;s height
                 new PowerUpItem(x, y, 0, 20);

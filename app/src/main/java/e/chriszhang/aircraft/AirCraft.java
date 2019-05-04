@@ -1,9 +1,5 @@
 package e.chriszhang.aircraft;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-
 public class AirCraft extends  FlyingObject implements  Runnable{
 
 
@@ -12,33 +8,65 @@ public class AirCraft extends  FlyingObject implements  Runnable{
      */
     private int HP;
 
-    private int exploingState;
+    /**
+     * the exploding state
+     */
+    private int explodingState;
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    private int startTime;
-
-    public int getExploingState() {
-        return exploingState;
-    }
-
-    public void setExploingState(int exploingState) {
-        this.exploingState = exploingState;
-    }
-
-
-
+    /**
+     * the isRunning boolean
+     */
     private boolean isRunning;
 
-    public AirCraft(){
 
+
+
+    public int getExplodingState() {
+        return explodingState;
+    }
+
+    public void setExplodingState(int explodingState) {
+        this.explodingState = explodingState;
+    }
+
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void decreaseHP(){
+        this.HP --;
+    }
+
+    public void setHP(int HP){
+        this.HP = HP;
+    }
+
+    public boolean isRunning(){
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
+    public boolean isStillHealth(){
+        return this.HP > 0;
+    }
+
+    public AirCraft(){
         this.setRunning(true);
+    }
+
+    /**
+     * return if the time period is long enough to generate a new Bullet or Missile
+     */
+    boolean checkTime(int timeStart, int timePeriod){
+        int timeDiff = getSkyManager().getmTimeLeftInMillis() - timeStart;
+        if(timeDiff >= timePeriod){
+            return true;
+        }
+        return false;
     }
 
 
@@ -55,25 +83,6 @@ public class AirCraft extends  FlyingObject implements  Runnable{
 
 
 
-    public int getHP() {
-        return HP;
-    }
-
-    public void decreaseHP(){
-        this.HP --;
-    }
-
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean running) {
-        isRunning = running;
-    }
 
 
 

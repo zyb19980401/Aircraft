@@ -24,8 +24,8 @@ public class Missile extends FlyingObject implements Runnable {
         this.speedY = speedY;
         this.missileX = missileX;
         this.missileY = missileY;
-        setWidth(175 * getSkyManager().getRate());
-        setHeight(175 * getSkyManager().getRate());
+        setWidth(110 * getSkyManager().getRate());
+        setHeight(220 * getSkyManager().getRate());
         SetX(missileX);
         SetY(missileY);
         setRunning(true);
@@ -96,7 +96,9 @@ public class Missile extends FlyingObject implements Runnable {
                     this.setRunning(false);
                     break;
                 }
-                running = getRectangle().top < getSkyManager().getHeight();
+                if(running){
+                    running = getRectangle().top < getSkyManager().getHeight();
+                }
             }
         }
         catch(java.util.ConcurrentModificationException exception){

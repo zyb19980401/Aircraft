@@ -1,20 +1,8 @@
 package e.chriszhang.aircraft;
 
-import static e.chriszhang.aircraft.GameActivity.getSkyManager;
-
 public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
 
     private int bulletStartTime;
-
-    boolean checkTime(int timeStart, int timePeriod){
-        int timeDiff = getSkyManager().getmTimeLeftInMillis() - timeStart;
-        if(timeDiff >= timePeriod){
-            return true;
-        }
-        return false;
-    }
-
-
 
     public MediumEnemyAirCraft(float X, float Y, float SpeedX, float SpeedY){
         super(X,Y,SpeedX,SpeedY);
@@ -26,12 +14,7 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
         getSkyManager().addMediumEnemyAirCraftList(this);
         bulletStartTime = getSkyManager().getmTimeLeftInMillis();
         new Thread(this).start();
-
-
-
-
     }
-
     @Override
     public void run(){
         while (isRunning() && getSkyManager().isRunning()) {
@@ -57,16 +40,17 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(isRunning()){
-                setRunning(getRectangle().top < getSkyManager().getHeight());}  //如果已经被HIt 已经为False
+            if(isRunning()){                //如果已经被HIt 已经为False
+                setRunning(getRectangle().top < getSkyManager().getHeight());
+            }
         }
         notifyObservers( -1, -1);
         deleteObservers();
 
-        while(getExploingState() < 4){
+        while(getExplodingState() < 4){
             try{Thread.sleep(100);
-                int a = getExploingState();
-                setExploingState(a +1);
+                int a = getExplodingState();
+                setExplodingState(a +1);
             }
             catch (Exception e){
                 e.printStackTrace();
