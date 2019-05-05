@@ -51,15 +51,18 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
             if(isRunning()){                //如果已经被HIt 已经为False
                 setRunning(getRectangle().top < getSkyManager().getHeight());
             }
-            if(isHited() && hittedTime == 0){
-                hittedTime = getSkyManager().getmTimeLeftInMillis();
+            if(isHited()){
                 changeHitImage = true;
             }
-            boolean changeBack = checkTime(bulletStartTime, 500);
-            if(changeBack){
-                setHited(false);
-                changeHitImage = false;
-            }
+//            if(isHited() && hittedTime == 0){
+//                hittedTime = getSkyManager().getmTimeLeftInMillis();
+//                changeHitImage = true;
+//            }
+//            boolean changeBack = checkTime(bulletStartTime, 500);
+//            if(changeBack){
+//                setHited(false);
+//                changeHitImage = false;
+//            }
         }
         notifyObservers( -1, -1);
         deleteObservers();
