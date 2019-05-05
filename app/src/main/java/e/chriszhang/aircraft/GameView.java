@@ -219,7 +219,8 @@ public class GameView extends View {
         drawMissileList(g, skyManager.getMissileList(), missile);   //draw the missile list
         drawHp(g);  //draw the three HP heart
         drawTime(g);    //draw the timer onto the right-top
-        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
+//        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
+        drawMediumAircraftList(g, skyManager.getMediumEnemyAirCraftList(), mediumEnemy, mediumAircrafthit);
         drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
     }
 
@@ -291,6 +292,35 @@ public class GameView extends View {
             for(AirCraft i : list){
                 if (i.getExplodingState() ==0){
                     g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
+                else if(i.getExplodingState() ==1){
+                    g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
+
+                else if(i.getExplodingState() ==2){
+                    g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
+                else if(i.getExplodingState() ==3){
+                    g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
+                else if(i.getExplodingState() ==4){
+                    g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
+            }
+        }catch(ConcurrentModificationException e){
+            e.printStackTrace();
+            System.out.println("ConcurrentModificationException");
+        }
+        catch(java.lang.NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    protected  void drawMediumAircraftList(Canvas g, List<MediumEnemyAirCraft> list, List<Bitmap> images, Bitmap temp){
+        try{
+            for(MediumEnemyAirCraft i : list){
+                if (i.getExplodingState() ==0) {
+                    if (! i.isChangeHitImage()) {
+                        g.drawBitmap(images.get(0), null, i.getRectangle(), p);
+                    } else {
+                        g.drawBitmap(temp, null, i.getRectangle(), p);
+                    }
+                    }
                 else if(i.getExplodingState() ==1){
                     g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
 

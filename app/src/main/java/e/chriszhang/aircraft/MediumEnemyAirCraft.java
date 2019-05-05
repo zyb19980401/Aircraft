@@ -4,6 +4,14 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
 
     private int bulletStartTime;
 
+    public boolean isChangeHitImage() {
+        return changeHitImage;
+    }
+
+    private boolean changeHitImage;
+
+    private int hittedTime;
+
     public MediumEnemyAirCraft(float X, float Y, float SpeedX, float SpeedY){
         super(X,Y,SpeedX,SpeedY);
         setHeight(165 * getSkyManager().getRate());
@@ -42,6 +50,14 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
             }
             if(isRunning()){                //如果已经被HIt 已经为False
                 setRunning(getRectangle().top < getSkyManager().getHeight());
+            }
+            if(getHP() == 1 && hittedTime == 0){
+                hittedTime = getSkyManager().getmTimeLeftInMillis();
+                changeHitImage = true;
+            }
+            boolean changeBack = checkTime(bulletStartTime, 500);
+            if(changeBack){
+                changeHitImage = false;
             }
         }
         notifyObservers( -1, -1);
