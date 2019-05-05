@@ -5,6 +5,7 @@ public class Bullet extends FlyingObject implements Runnable{
     private AirCraft airCraft;
     private float speedX;
     private  float speedY;
+    private final int attack = 1;
     private float bulletX;
     private float bulletY;
     private  boolean flyingUp;
@@ -68,9 +69,10 @@ public class Bullet extends FlyingObject implements Runnable{
             SetY(getRectangle().top + speedY);
             SetX(getRectangle().left + speedX);
             if (flyingUp) {
-                for (AirCraft airCraft: getSkyManager().getEnemyAirCraftList()){ // check enemyaircraftlist
+                for (EnemyAirCraft airCraft: getSkyManager().getEnemyAirCraftList()){ // check enemyaircraftlist
                     if(this.isHitBy(airCraft)){
-                        airCraft.decreaseHP();
+                        airCraft.decreaseHpBy(attack);
+                        airCraft.setHited(true);   //in case we want to do some animation when it gets hitted.
                         System.out.println(airCraft.getHP());
                         if(!airCraft.isStillHealth()) {
                             airCraft.setRunning(false);
@@ -86,7 +88,7 @@ public class Bullet extends FlyingObject implements Runnable{
             }
             else {
                 if(this.isHitBy(getSkyManager().getMyAircraft())){
-                    getSkyManager().getMyAircraft().decreaseHP();
+                    getSkyManager().getMyAircraft().decreaseHpBy(attack);
                     this.setRunning(false);
                 }
                 if(running) {

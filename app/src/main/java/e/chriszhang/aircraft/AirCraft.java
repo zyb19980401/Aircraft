@@ -34,8 +34,8 @@ public class AirCraft extends  FlyingObject implements  Runnable{
         return HP;
     }
 
-    public void decreaseHP(){
-        this.HP --;
+    public void decreaseHpBy(int attackNum){
+        this.HP -= attackNum;
     }
 
     public void setHP(int HP){

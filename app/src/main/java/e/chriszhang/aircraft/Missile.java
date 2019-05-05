@@ -10,6 +10,7 @@ public class Missile extends FlyingObject implements Runnable {
     private float speedY;
     private float missileX;
     private float missileY;
+    private final int attack = 2;
 
     public int getRotatingDegree() {
         return rotatingDegree;
@@ -90,11 +91,21 @@ public class Missile extends FlyingObject implements Runnable {
             }
             running = getRectangle().top + getHeight() > 0;
             try{
-            for (AirCraft airCraft : getSkyManager().getEnemyAirCraftList()) { // check enemyaircraftlist
+            for (EnemyAirCraft airCraft : getSkyManager().getEnemyAirCraftList()) { // check enemyaircraftlist
                 if (this.isHitBy(airCraft)) {
-                    airCraft.setRunning(false);
+//                    airCraft.setRunning(false);
+//                    this.setRunning(false);
+//                    break;
+                    airCraft.decreaseHpBy(attack);
+                    airCraft.setHited(true);   //in case we want to do some animation when it gets hitted.
+                    System.out.println(airCraft.getHP());
+                    if(!airCraft.isStillHealth()) {
+                        airCraft.setRunning(false);
+                    }
                     this.setRunning(false);
                     break;
+
+
                 }
                 if(running){
                     running = getRectangle().top < getSkyManager().getHeight();

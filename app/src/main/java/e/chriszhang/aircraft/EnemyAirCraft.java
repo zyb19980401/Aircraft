@@ -8,6 +8,16 @@ public class EnemyAirCraft extends AirCraft{
     private float speedX;
     private float speedY;
     private boolean changed;
+
+    public boolean isHited() {
+        return isHited;
+    }
+
+    public void setHited(boolean hited) {
+        isHited = hited;
+    }
+
+    private boolean isHited;
     private Vector<Missile> obs;
 
 

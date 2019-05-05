@@ -43,7 +43,7 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
                 notifyObservers(newX, newY);
                 if(this.isRunning()&&this.isHitBy(getSkyManager().getMyAircraft())){
                     setRunning(false);
-                    getSkyManager().getMyAircraft().decreaseHP();
+                    getSkyManager().getMyAircraft().decreaseHpBy(1);// hit by Enemy will decrease HP by 1
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -51,12 +51,13 @@ public class MediumEnemyAirCraft extends EnemyAirCraft implements Runnable{
             if(isRunning()){                //如果已经被HIt 已经为False
                 setRunning(getRectangle().top < getSkyManager().getHeight());
             }
-            if(getHP() == 1 && hittedTime == 0){
+            if(isHited() && hittedTime == 0){
                 hittedTime = getSkyManager().getmTimeLeftInMillis();
                 changeHitImage = true;
             }
             boolean changeBack = checkTime(bulletStartTime, 500);
             if(changeBack){
+                setHited(false);
                 changeHitImage = false;
             }
         }
