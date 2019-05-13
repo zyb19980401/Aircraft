@@ -50,6 +50,22 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<Missile>  MissileList = Collections.synchronizedList (new ArrayList<>());
 
+    public List<BigEnemyAircraft> getBigEnemyAircraftList() {
+        return bigEnemyAircraftList;
+    }
+
+    public void setBigEnemyAircraftList(List<BigEnemyAircraft> bigEnemyAircraftList) {
+        this.bigEnemyAircraftList = bigEnemyAircraftList;
+    }
+
+    public void removeBigEnemyAircraftList(BigEnemyAircraft bigEnemyAircraft){
+
+        bigEnemyAircraftList.remove(bigEnemyAircraft);
+
+    }
+
+    private List<BigEnemyAircraft> bigEnemyAircraftList = Collections.synchronizedList (new ArrayList<>());
+
     private MyAircraft myAircraft;
 
     private int mTimeLeftInMillis;
@@ -164,6 +180,11 @@ public class SkyManager extends Observable implements Runnable {
         mediumEnemyAirCraftList.add(mediumEnemyAirCraft);
     }
 
+
+    public void addBigEnemyAirCraftList(BigEnemyAircraft bigEnemyAircraft){
+        bigEnemyAircraftList.add(bigEnemyAircraft);
+    }
+
     public void removeMissileList(Missile missile){
         MissileList.remove(missile);
     }
@@ -235,58 +256,69 @@ public class SkyManager extends Observable implements Runnable {
         }
         return false;
     }
+
+    public int ff;
     @Override
     public void run(){  //这里控制GameState
+
         while (isRunning()){
-            boolean Medium = checkTime(startTime, 5000);
-            boolean NewEnmey = checkTime(newEnemyTime, 2000);
-            if(Medium){
-                startTime = getmTimeLeftInMillis();
-            }
-            if(NewEnmey){
-                newEnemyTime = getmTimeLeftInMillis();
-            }
-            try {
-//                Thread.sleep(1600);
-                float x0 = (float) (Math.random() * (getWidth() - 100));
-                float x1 = (float) (Math.random() * (getWidth() - 100));
-                float x2 = (float) (Math.random() * (getWidth() - 100));
-
-                float x3 = (float) (Math.random() * (getWidth() - 100));
-                float x4 = (float) (Math.random() * (getWidth() - 100));
-                float x5 = (float) (Math.random() * (getWidth() - 100));
-
-                float y = 0;  // small enemyAircraft;s height
-
-                if(!Medium){
-                    if(NewEnmey) {
-                        new SmallEnemyAirCraft(x0, y, 0, 20);
-                        new SmallEnemyAirCraft(x1, y, 0, 20);
-                        new SmallEnemyAirCraft(x2, y, 0, 20);
-                    }
-                }
-                else {
-                    if (NewEnmey) {
-                        new MediumEnemyAirCraft(x3, y, 0, 20);
-                        new MediumEnemyAirCraft(x4, y, 0, 20);
-                        new MediumEnemyAirCraft(x5, y, 0, 20);
-                    }
-                }
-            }
-            catch(Exception e){
-                e.printStackTrace();
+            if(ff==0){
+                BigEnemyAircraft bigEnemyAircraft = new BigEnemyAircraft(1000,0,0,0);
+                ff = 1;
+                System.out.println("fffffff");
             }
 
-            try {
-                Thread.sleep(3000);
-                float x = (float) (Math.random() * (getWidth() - 100));
-                float y = 0;  // small enemyAircraft;s height
-                new PowerUpItem(x, y, 0, 20);
-                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
+            //dsfkdsjflks
+
+//            boolean Medium = checkTime(startTime, 5000);
+//            boolean NewEnmey = checkTime(newEnemyTime, 2000);
+//            if(Medium){
+//                startTime = getmTimeLeftInMillis();
+//            }
+//            if(NewEnmey){
+//                newEnemyTime = getmTimeLeftInMillis();
+//            }
+//            try {
+////                Thread.sleep(1600);
+//                float x0 = (float) (Math.random() * (getWidth() - 100));
+//                float x1 = (float) (Math.random() * (getWidth() - 100));
+//                float x2 = (float) (Math.random() * (getWidth() - 100));
+//
+//                float x3 = (float) (Math.random() * (getWidth() - 100));
+//                float x4 = (float) (Math.random() * (getWidth() - 100));
+//                float x5 = (float) (Math.random() * (getWidth() - 100));
+//
+//                float y = 0;  // small enemyAircraft;s height
+//
+//                if(!Medium){
+//                    if(NewEnmey) {
+//                        new SmallEnemyAirCraft(x0, y, 0, 20);
+//                        new SmallEnemyAirCraft(x1, y, 0, 20);
+//                        new SmallEnemyAirCraft(x2, y, 0, 20);
+//                    }
+//                }
+//                else {
+//                    if (NewEnmey) {
+//                        new MediumEnemyAirCraft(x3, y, 0, 20);
+//                        new MediumEnemyAirCraft(x4, y, 0, 20);
+//                        new MediumEnemyAirCraft(x5, y, 0, 20);
+//                    }
+//                }
+//            }
+//            catch(Exception e){
+//                e.printStackTrace();
+//            }
+//
+//            try {
+//                Thread.sleep(3000);
+//                float x = (float) (Math.random() * (getWidth() - 100));
+//                float y = 0;  // small enemyAircraft;s height
+//                new PowerUpItem(x, y, 0, 20);
+//                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
+//            }
+//            catch(Exception e){
+//                e.printStackTrace();
+//            }
         }
     }
 

@@ -61,6 +61,8 @@ public class GameView extends View {
 
     private List<Bitmap> mediumEnemy = new ArrayList<Bitmap>();
 
+    private List<Bitmap> bigEnemy = new ArrayList<Bitmap>();
+
     private List<Bitmap> timers = new ArrayList<Bitmap>();
 
     private List<Bitmap> defaultBullets = new ArrayList<Bitmap>();
@@ -123,6 +125,12 @@ public class GameView extends View {
         mediumEnemy.add(mediumAircraft2);
         mediumEnemy.add(mediumAircraft3);
         mediumEnemy.add(mediumAircraft4);
+        //
+        bigEnemy.add(bigAircraft0);
+        bigEnemy.add(bigAircraft1);
+        bigEnemy.add(bigAircraft2);
+        bigEnemy.add(bigAircraft3);
+        bigEnemy.add(bigAircraft4);
     }
 
     protected void drawTime(Canvas g) {
@@ -192,7 +200,14 @@ public class GameView extends View {
     private Bitmap mediumAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane3);
     private Bitmap mediumAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplane4);
     private Bitmap mediumAircrafthit = BitmapFactory.decodeResource(getResources(),R.mipmap.mediumplanehit);
-    private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerup);
+    private Bitmap bigAircraft0 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane0);
+    private Bitmap bigAircraft1 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane1);
+    private Bitmap bigAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane2);
+    private Bitmap bigAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane3);
+    private Bitmap bigAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane4);
+
+
+    private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerupbullet);
     private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
     private Bitmap timer0 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer0);
@@ -222,6 +237,7 @@ public class GameView extends View {
 //        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
         drawMediumAircraftList(g, skyManager.getMediumEnemyAirCraftList(), mediumEnemy, mediumAircrafthit);
         drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
+        drawAircraftsList(g,skyManager.getBigEnemyAircraftList(), bigEnemy);
     }
 
     protected void drawHp(Canvas g){
