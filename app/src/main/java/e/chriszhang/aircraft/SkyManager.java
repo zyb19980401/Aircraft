@@ -262,63 +262,63 @@ public class SkyManager extends Observable implements Runnable {
     public void run(){  //这里控制GameState
 
         while (isRunning()){
-            if(ff==0){
-                BigEnemyAircraft bigEnemyAircraft = new BigEnemyAircraft(1000,0,0,0);
-                ff = 1;
-                System.out.println("fffffff");
-            }
+//            if(ff==0){
+//                BigEnemyAircraft bigEnemyAircraft = new BigEnemyAircraft(1000,0,0,0);
+//                ff = 1;
+//                System.out.println("fffffff");
+//            }
 
             //dsfkdsjflks
 
-//            boolean Medium = checkTime(startTime, 5000);
-//            boolean NewEnmey = checkTime(newEnemyTime, 2000);
-//            if(Medium){
-//                startTime = getmTimeLeftInMillis();
-//            }
-//            if(NewEnmey){
-//                newEnemyTime = getmTimeLeftInMillis();
-//            }
-//            try {
-////                Thread.sleep(1600);
-//                float x0 = (float) (Math.random() * (getWidth() - 100));
-//                float x1 = (float) (Math.random() * (getWidth() - 100));
-//                float x2 = (float) (Math.random() * (getWidth() - 100));
-//
-//                float x3 = (float) (Math.random() * (getWidth() - 100));
-//                float x4 = (float) (Math.random() * (getWidth() - 100));
-//                float x5 = (float) (Math.random() * (getWidth() - 100));
-//
-//                float y = 0;  // small enemyAircraft;s height
-//
-//                if(!Medium){
-//                    if(NewEnmey) {
-//                        new SmallEnemyAirCraft(x0, y, 0, 20);
-//                        new SmallEnemyAirCraft(x1, y, 0, 20);
-//                        new SmallEnemyAirCraft(x2, y, 0, 20);
-//                    }
-//                }
-//                else {
-//                    if (NewEnmey) {
-//                        new MediumEnemyAirCraft(x3, y, 0, 20);
-//                        new MediumEnemyAirCraft(x4, y, 0, 20);
-//                        new MediumEnemyAirCraft(x5, y, 0, 20);
-//                    }
-//                }
-//            }
-//            catch(Exception e){
-//                e.printStackTrace();
-//            }
-//
-//            try {
-//                Thread.sleep(3000);
-//                float x = (float) (Math.random() * (getWidth() - 100));
-//                float y = 0;  // small enemyAircraft;s height
-//                new PowerUpItem(x, y, 0, 20);
-//                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
-//            }
-//            catch(Exception e){
-//                e.printStackTrace();
-//            }
+            boolean Medium = checkTime(startTime, 5000);
+            boolean NewEnmey = checkTime(newEnemyTime, 2000);
+            if(Medium){
+                startTime = getmTimeLeftInMillis();
+            }
+            if(NewEnmey){
+                newEnemyTime = getmTimeLeftInMillis();
+            }
+            try {
+//                Thread.sleep(1600);
+                float x0 = (float) (Math.random() * (getWidth() - 100));
+                float x1 = (float) (Math.random() * (getWidth() - 100));
+                float x2 = (float) (Math.random() * (getWidth() - 100));
+
+                float x3 = (float) (Math.random() * (getWidth() - 100));
+                float x4 = (float) (Math.random() * (getWidth() - 100));
+                float x5 = (float) (Math.random() * (getWidth() - 100));
+
+                float y = 0;  // small enemyAircraft;s height
+
+                if(!Medium){
+                    if(NewEnmey) {
+                        new SmallEnemyAirCraft(x0, y, 0, 20);
+                        new SmallEnemyAirCraft(x1, y, 0, 20);
+                        new SmallEnemyAirCraft(x2, y, 0, 20);
+                    }
+                }
+                else {
+                    if (NewEnmey) {
+                        new MediumEnemyAirCraft(x3, y, 0, 20);
+                        new MediumEnemyAirCraft(x4, y, 0, 20);
+                        new MediumEnemyAirCraft(x5, y, 0, 20);
+                    }
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(3000);
+                float x = (float) (Math.random() * (getWidth() - 100));
+                float y = 0;  // small enemyAircraft;s height
+                new PowerUpItem(x, y, 0, 20);
+                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

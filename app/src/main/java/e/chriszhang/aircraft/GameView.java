@@ -237,7 +237,7 @@ public class GameView extends View {
 //        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
         drawMediumAircraftList(g, skyManager.getMediumEnemyAirCraftList(), mediumEnemy, mediumAircrafthit);
         drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
-        drawAircraftsList(g,skyManager.getBigEnemyAircraftList(), bigEnemy);
+//        drawAircraftsList(g,skyManager.getBigEnemyAircraftList(), bigEnemy);
     }
 
     protected void drawHp(Canvas g){
