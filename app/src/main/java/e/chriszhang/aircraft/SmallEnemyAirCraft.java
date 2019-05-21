@@ -11,7 +11,7 @@ public class SmallEnemyAirCraft extends EnemyAirCraft {
         getSkyManager().addSmallEnemyAircraftList(this);
         new Thread(this).start();
     }
-
+//sdkfjsldkjf this is so hard
     @Override
     public void run(){
         while (isRunning() && getSkyManager().isRunning()) {
