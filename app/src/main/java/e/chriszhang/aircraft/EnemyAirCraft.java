@@ -21,7 +21,13 @@ public class EnemyAirCraft extends AirCraft{
     private Vector<Missile> obs;
 
 
+    public void setSpeedX(float speedX) {
+        this.speedX = speedX;
+    }
 
+    public void setSpeedY(float speedY) {
+        this.speedY = speedY;
+    }
 
     EnemyAirCraft(float X , float Y, float SpeedX, float SpeedY){
         super();
