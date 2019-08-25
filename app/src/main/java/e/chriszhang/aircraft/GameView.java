@@ -67,6 +67,9 @@ public class GameView extends View {
 
     private List<Bitmap> defaultBullets = new ArrayList<Bitmap>();
 
+    private List<Bitmap> bigEnemyHitted = new ArrayList<Bitmap>();
+
+
     /**
      * Set the time part  x and y.
      */
@@ -131,6 +134,10 @@ public class GameView extends View {
         bigEnemy.add(bigAircraft2);
         bigEnemy.add(bigAircraft3);
         bigEnemy.add(bigAircraft4);
+        bigEnemy.add(bigAircraft5);
+        //
+        bigEnemyHitted.add(bigAircraftHit1);
+        bigEnemyHitted.add(bigAircraftHit2);
     }
 
     protected void drawTime(Canvas g) {
@@ -205,8 +212,9 @@ public class GameView extends View {
     private Bitmap bigAircraft2 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane2);
     private Bitmap bigAircraft3 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane3);
     private Bitmap bigAircraft4 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane4);
-
-
+    private Bitmap bigAircraft5 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplane5);
+    private Bitmap bigAircraftHit1 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplanehit1);
+    private Bitmap bigAircraftHit2 = BitmapFactory.decodeResource(getResources(),R.mipmap.bigplanehit2);
     private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerupbullet);
     private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
@@ -227,6 +235,8 @@ public class GameView extends View {
         super.onDraw(g);
         g.drawBitmap(background, null, skyManager.getBackGround().getRectangle(), p);   //draw background
         g.drawBitmap(myAircraft, null, skyManager.getMyAircraft().getRectangle(), p);   //draw my aircraft
+        if(skyManager.Boss != null){
+            drawBoss(g, (BigEnemyAircraft) skyManager.Boss, bigEnemy,bigEnemyHitted);}
 //        drawList(g, skyManager.getMyBulletLIst(),bullet);
         drawBulletList(g,skyManager.getMyBulletLIst(), defaultBullets);  //draw the default bullet list
         drawList(g,skyManager.getEnemyBulletList(), bulletEnemy);   //draw the enemy bullet list
@@ -306,7 +316,7 @@ public class GameView extends View {
     protected  void drawAircraftsList(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
         try{
             for(AirCraft i : list){
-                if (i.getExplodingState() ==0){
+                if (i.getExplodingState() == 0){
                     g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
                 else if(i.getExplodingState() ==1){
                     g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
@@ -355,6 +365,43 @@ public class GameView extends View {
             e.printStackTrace();
         }
     }
+
+    protected  void drawBoss (Canvas g, BigEnemyAircraft Boss, List<Bitmap> images, List<Bitmap> temp){
+        try{
+            if(Boss != null) {
+                if (Boss.getExplodingState() == 0) {
+                    int Hitimages = Boss.getHitimage();
+                    if (Hitimages == 0) {
+                        g.drawBitmap(images.get(0), null, Boss.getRectangle(), p);
+                    }
+                    if (Hitimages == 1) {
+                        g.drawBitmap(temp.get(0), null, Boss.getRectangle(), p);
+                    }
+                    if (Hitimages == 2) {
+                        g.drawBitmap(temp.get(1), null, Boss.getRectangle(), p);
+                    }
+                } else if (Boss.getExplodingState() == 1) {
+                    g.drawBitmap(images.get(1), null, Boss.getRectangle(), p);
+                } else if (Boss.getExplodingState() == 2) {
+                    g.drawBitmap(images.get(2), null, Boss.getRectangle(), p);
+                } else if (Boss.getExplodingState() == 3) {
+                    g.drawBitmap(images.get(3), null, Boss.getRectangle(), p);
+                } else if (Boss.getExplodingState() == 4) {
+                    g.drawBitmap(images.get(4), null, Boss.getRectangle(), p);
+                } else if (Boss.getExplodingState() == 5) {
+                    g.drawBitmap(images.get(5), null, Boss.getRectangle(), p);
+                }
+            }
+
+        }catch(ConcurrentModificationException e){
+            e.printStackTrace();
+            System.out.println("ConcurrentModificationException");
+        }
+        catch(java.lang.NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
 
     protected  void drawBulletList(Canvas g, List<? extends Bullet> list, List<Bitmap> images){
         try{

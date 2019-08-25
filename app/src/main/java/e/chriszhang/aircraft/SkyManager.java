@@ -26,6 +26,8 @@ public class SkyManager extends Observable implements Runnable {
 
     private int newEnemyTime;
 
+    public EnemyAirCraft Boss = null;
+
     public boolean isRunning(){return running;}
 
     private List<Bullet>  EnemyBulletList =  Collections.synchronizedList(new ArrayList<>());
@@ -257,18 +259,11 @@ public class SkyManager extends Observable implements Runnable {
         return false;
     }
 
-    public int ff;
+    int checker = 0;
     @Override
     public void run(){  //这里控制GameState
 
         while (isRunning()){
-//            if(ff==0){
-//                BigEnemyAircraft bigEnemyAircraft = new BigEnemyAircraft(1000,0,0,0);
-//                ff = 1;
-//                System.out.println("fffffff");
-//            }
-
-            //dsfkdsjflks
 
             boolean Medium = checkTime(startTime, 5000);
             boolean NewEnmey = checkTime(newEnemyTime, 2000);
@@ -278,36 +273,52 @@ public class SkyManager extends Observable implements Runnable {
             if(NewEnmey){
                 newEnemyTime = getmTimeLeftInMillis();
             }
-            try {
-//                Thread.sleep(1600);
-                float x0 = (float) (Math.random() * (getWidth() - 100));
-                float x1 = (float) (Math.random() * (getWidth() - 100));
-                float x2 = (float) (Math.random() * (getWidth() - 100));
+            try{
+                if(checker < 2) {
+                    Boss = new BigEnemyAircraft(400, 100, 20, 0);
+//                    new SmallEnemyAirCraft(300,300,0,0);
 
-                float x3 = (float) (Math.random() * (getWidth() - 100));
-                float x4 = (float) (Math.random() * (getWidth() - 100));
-                float x5 = (float) (Math.random() * (getWidth() - 100));
 
-                float y = 0;  // small enemyAircraft;s height
 
-                if(!Medium){
-                    if(NewEnmey) {
-                        new SmallEnemyAirCraft(x0, y, 0, 20);
-                        new SmallEnemyAirCraft(x1, y, 0, 20);
-                        new SmallEnemyAirCraft(x2, y, 0, 20);
-                    }
+                    System.out.println("the sie of the big enmey is " + getBigEnemyAircraftList().size());
+                    checker += 1;
                 }
-                else {
-                    if (NewEnmey) {
-                        new MediumEnemyAirCraft(x3, y, 0, 20);
-                        new MediumEnemyAirCraft(x4, y, 0, 20);
-                        new MediumEnemyAirCraft(x5, y, 0, 20);
-                    }
-                }
+
+            }catch(Exception e){
+               e.printStackTrace();
             }
-            catch(Exception e){
-                e.printStackTrace();
-            }
+            System.out.println("the size is ok" + getEnemyAirCraftList().size());
+//            try {
+////                Thread.sleep(1600);
+//                float x0 = (float) (Math.random() * (getWidth() - 100));
+//                float x1 = (float) (Math.random() * (getWidth() - 100));
+//                float x2 = (float) (Math.random() * (getWidth() - 100));
+//
+//                float x3 = (float) (Math.random() * (getWidth() - 100));
+//                float x4 = (float) (Math.random() * (getWidth() - 100));
+//                float x5 = (float) (Math.random() * (getWidth() - 100));
+//
+//                float y = 0;  // small enemyAircraft;s height
+//
+//                if(!Medium){
+//                    if(NewEnmey) {
+//                        new SmallEnemyAirCraft(x0, y, 0, 20);
+//                        new SmallEnemyAirCraft(x1, y, 0, 20);
+//                        new SmallEnemyAirCraft(x2, y, 0, 20);
+//                        new BigEnemyAircraft(x2, y, 0, 20);
+//                    }
+//                }
+//                else {
+//                    if (NewEnmey) {
+//                        new MediumEnemyAirCraft(x3, y, 0, 20);
+//                        new MediumEnemyAirCraft(x4, y, 0, 20);
+//                        new MediumEnemyAirCraft(x5, y, 0, 20);
+//                    }
+//                }
+//            }
+//            catch(Exception e){
+//                e.printStackTrace();
+//            }
 
             try {
                 Thread.sleep(3000);
