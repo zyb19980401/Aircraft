@@ -246,7 +246,8 @@ public class GameView extends View {
         drawTime(g);    //draw the timer onto the right-top
 //        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list
         drawMediumAircraftList(g, skyManager.getMediumEnemyAirCraftList(), mediumEnemy, mediumAircrafthit);
-        drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
+//        drawAircraftsList(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);  // draw the small enemy aircraft List
+        drawSmallEnemyLlist(g,skyManager.getSmallEnemyAircraftList(), smallEnemy);
 //        drawAircraftsList(g,skyManager.getBigEnemyAircraftList(), bigEnemy);
     }
 
@@ -312,7 +313,6 @@ public class GameView extends View {
         }
     }
 
-
     protected  void drawAircraftsList(Canvas g, List<? extends AirCraft> list, List<Bitmap> images){
         try{
             for(AirCraft i : list){
@@ -336,6 +336,43 @@ public class GameView extends View {
             e.printStackTrace();
         }
     }
+
+    protected  void drawSmallEnemyLlist(Canvas g, List<SmallEnemyAirCraft> list, List<Bitmap> images){
+        try{
+            Bitmap bInput = images.get(0);
+            for(SmallEnemyAirCraft i : list){
+                int Rotatingdegree = (int)i.getRoaRotatingdegree();
+                int degrees = 0;
+                if(Rotatingdegree!= 0){
+                    degrees = Rotatingdegree;
+                }
+                //rotation degree
+                Bitmap bOutput = rotateBitmap(bInput, degrees);
+                g.drawBitmap(bOutput, null, i.getRectangle(),p);
+                if (i.getExplodingState() == 0) {
+                    g.drawBitmap(bOutput, null, i.getRectangle(), p);
+//                        g.drawBitmap(images.get(0), null, i.getRectangle(),p);}
+                }
+                    else if(i.getExplodingState() ==1){
+                        g.drawBitmap(images.get(1), null, i.getRectangle(),p);}
+
+                    else if(i.getExplodingState() ==2){
+                        g.drawBitmap(images.get(2), null, i.getRectangle(),p);}
+                    else if(i.getExplodingState() ==3){
+                        g.drawBitmap(images.get(3), null, i.getRectangle(),p);}
+                    else if(i.getExplodingState() ==4){
+                        g.drawBitmap(images.get(4), null, i.getRectangle(),p);}
+            }}catch(ConcurrentModificationException e){
+            e.printStackTrace();
+            System.out.println("ConcurrentModificationException");
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+            System.out.println("NullPointerException");
+        }
+    }
+
+
 
     protected  void drawMediumAircraftList(Canvas g, List<MediumEnemyAirCraft> list, List<Bitmap> images, Bitmap temp){
         try{

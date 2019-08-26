@@ -1,6 +1,16 @@
 package e.chriszhang.aircraft;
 
 public class SmallEnemyAirCraft extends EnemyAirCraft {
+    public float getRoaRotatingdegree() {
+        return roaRotatingdegree;
+    }
+
+    public void setRoaRotatingdegree(float roaRotatingdegree) {
+        this.roaRotatingdegree = roaRotatingdegree;
+    }
+
+    private float roaRotatingdegree = 0;
+
     public SmallEnemyAirCraft(float X, float Y, float SpeedX, float SpeedY){
         super(X,Y,SpeedX,SpeedY);
         setHeight(120 * getSkyManager().getRate());

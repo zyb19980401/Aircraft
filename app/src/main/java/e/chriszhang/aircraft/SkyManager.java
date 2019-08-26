@@ -1,6 +1,8 @@
 package e.chriszhang.aircraft;
 
 
+import android.graphics.PointF;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -259,6 +261,41 @@ public class SkyManager extends Observable implements Runnable {
         return false;
     }
 
+
+    public float calculateroating(){
+        //Case 1, target is above missile
+        PointF origin = new PointF(0, 0);
+        PointF smallEnemytop = new PointF(0,  100);
+        float targetX = getMyAircraft().x;
+        float targetY = getMyAircraft().y;
+        PointF target = new PointF(targetX, targetY);
+        float rotatingDegree = (int)angleBetween2Lines(origin, smallEnemytop, origin, target);
+        return rotatingDegree;
+    }
+    public static float angleBetween2Lines(PointF A1, PointF A2, PointF B1, PointF B2) {
+        float angle1 = (float) Math.atan2(A2.y - A1.y, A1.x - A2.x);
+        float angle2 = (float) Math.atan2(B2.y - B1.y, B1.x - B2.x);
+        float calculatedAngle = (float) Math.toDegrees(angle1 - angle2);
+        if (calculatedAngle < 0) calculatedAngle += 360;
+        return calculatedAngle;
+    }
+
+    private void attackGroupSmall(){
+        float RotatingDegree = calculateroating();
+        float speedX = getMyAircraft().x / 100;
+        float sppedY = getMyAircraft().y / 100;
+        int counter = 0;
+        boolean onemore = checkTime(startTime, 1200);
+        while(counter < 5) {
+            if (onemore) {
+                SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
+                firstone.setRoaRotatingdegree(RotatingDegree);
+                startTime = getmTimeLeftInMillis();
+                counter ++;
+            }
+        }
+    }
+
     int checker = 0;
     @Override
     public void run(){  //这里控制GameState
@@ -274,15 +311,31 @@ public class SkyManager extends Observable implements Runnable {
                 newEnemyTime = getmTimeLeftInMillis();
             }
             try{
-                if(checker < 2) {
-                    Boss = new BigEnemyAircraft(400, 100, 20, 0);
+                float RotatingDegree = calculateroating();
+                float speedX = getMyAircraft().x / 100;
+                float sppedY = getMyAircraft().y / 100;
+                boolean onemore = checkTime(startTime, 60);
+                int counter = 0;
+//                while(counter < 5) {
+                    if (onemore && counter < 5) {
+                        SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
+                        firstone.setRoaRotatingdegree(RotatingDegree);
+                        startTime = getmTimeLeftInMillis();
+                        counter++;
+                    }
+//                }
+
+//                if(checker < 2) {
+//                    Boss = new BigEnemyAircraft(400, 100, 20, 0);
 //                    new SmallEnemyAirCraft(300,300,0,0);
 
 
 
-                    System.out.println("the sie of the big enmey is " + getBigEnemyAircraftList().size());
-                    checker += 1;
-                }
+
+
+//                    System.out.println("the sie of the big enmey is " + getBigEnemyAircraftList().size());
+//                    checker += 1;
+//                }
 
             }catch(Exception e){
                e.printStackTrace();

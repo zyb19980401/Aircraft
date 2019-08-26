@@ -28,6 +28,10 @@ public class MyAircraft extends AirCraft {
      */
     private int weaponType;
 
+    public float x;
+
+    public float y;
+
     public int getMissileStartTime() {
         return missileStartTime;
     }
@@ -71,9 +75,8 @@ public class MyAircraft extends AirCraft {
         while (getSkyManager().isRunning()) {
             try {
                     Thread.sleep(50);
-                    float x = this.getRectangle().left + this.getWidth() / 2 - 50 * getSkyManager().getRate() / 2;
-                    float y = this.getRectangle().top - 50 * getSkyManager().getRate() / 2;
-
+                    x = this.getRectangle().left + this.getWidth() / 2 - 50 * getSkyManager().getRate() / 2;
+                    y = this.getRectangle().top - 50 * getSkyManager().getRate() / 2;
                     boolean newBullet = checkTime(bulletStartTime, 1000);
                     boolean newMissile = checkTime(missileStartTime, 2000);
                     int currentTime = getSkyManager().getmTimeLeftInMillis();
