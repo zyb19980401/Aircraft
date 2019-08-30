@@ -269,6 +269,16 @@ public class SkyManager extends Observable implements Runnable {
         float rotatingDegree = (int)angleBetween2Lines(origin, smallEnemytop, origin, target);
         return rotatingDegree;
     }
+    public float calculateroatingright(){
+        //Case 1, target is above missile
+        PointF origin = new PointF(1000, 0);
+        PointF smallEnemytop = new PointF(1000,  100);
+        float targetX = getMyAircraft().x;
+        float targetY = getMyAircraft().y;
+        PointF target = new PointF(targetX, targetY);
+        float rotatingDegree = (int)angleBetween2Lines(origin, smallEnemytop, origin, target);
+        return rotatingDegree;
+    }
     public static float angleBetween2Lines(PointF A1, PointF A2, PointF B1, PointF B2) {
         float angle1 = (float) Math.atan2(A2.y - A1.y, A1.x - A2.x);
         float angle2 = (float) Math.atan2(B2.y - B1.y, B1.x - B2.x);
@@ -367,10 +377,10 @@ public class SkyManager extends Observable implements Runnable {
                 stateTwo = false;
                 stateThree = true;
             }
-            if(getmTimeLeftInMillis() > 15000 && getmTimeLeftInMillis() <= 20000){
-                stateThree = false;
-                stateFour = true;
-            }
+//            if(getmTimeLeftInMillis() > 15000 && getmTimeLeftInMillis() <= 20000){
+//                stateThree = false;
+//                stateFour = true;
+//            }
 
 
             if (stateOne) {
@@ -381,12 +391,15 @@ public class SkyManager extends Observable implements Runnable {
             }
             else if(stateThree){
                 float RotatingDegree = calculateroating();
+                float RotatingRight = calculateroatingright();
                 float speedX = getMyAircraft().x / 100;
                 float sppedY = getMyAircraft().y / 100;
                 boolean onemore = checkTime(startTime, 800);
                     if (onemore && fivePlaneCounter < 5) {
-                        SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
-                        firstone.setRoaRotatingdegree(RotatingDegree);
+                        SmallEnemyAirCraft firstoneleft = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
+                        SmallEnemyAirCraft firstoneright= new SmallEnemyAirCraft(1000, 0, -speedX, sppedY);
+                        firstoneleft.setRoaRotatingdegree(RotatingDegree);
+                        firstoneright.setRoaRotatingdegree(RotatingRight);
                         startTime = getmTimeLeftInMillis();
                         fivePlaneCounter++;
                         System.out.println("one more"+ onemore);
