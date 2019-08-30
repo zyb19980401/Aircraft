@@ -437,6 +437,8 @@ public class SkyManager extends Observable implements Runnable {
             e.printStackTrace();
         }
 //    }
+
+
     }
 
     public List<Missile> getMissileList() {
