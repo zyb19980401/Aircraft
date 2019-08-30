@@ -12,7 +12,8 @@ public class SkyManager extends Observable implements Runnable {
 
     SkyManager(){
         this.startTime = 0;
-        this.newEnemyTime = 0;
+        this.newRandomEnemyTime = 0;
+        this.stateOne = true;
     }
 
     /**
@@ -23,10 +24,6 @@ public class SkyManager extends Observable implements Runnable {
     private int width;
 
     private int height;
-
-    private int startTime;
-
-    private int newEnemyTime;
 
     public EnemyAirCraft Boss = null;
 
@@ -280,49 +277,124 @@ public class SkyManager extends Observable implements Runnable {
         return calculatedAngle;
     }
 
-    private void attackGroupSmall(){
+    private void attackGroupSmall() {
         float RotatingDegree = calculateroating();
         float speedX = getMyAircraft().x / 100;
         float sppedY = getMyAircraft().y / 100;
-        int counter = 0;
-        boolean onemore = checkTime(startTime, 1200);
-        while(counter < 5) {
-            if (onemore) {
+        boolean onemore = checkTime(startTime, 800);
+            if (onemore && counter < 5) {
                 SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
                 firstone.setRoaRotatingdegree(RotatingDegree);
                 startTime = getmTimeLeftInMillis();
-                counter ++;
+                counter++;
+                System.out.println("one more" + onemore);
+                System.out.println("one more" + startTime);
+            }
+        }
+
+    private void attackSmallRandom(boolean NewEnmey){
+        float y = 0;
+        float x0 = (float) (Math.random() * (getWidth() - 100));
+        float x1 = (float) (Math.random() * (getWidth() - 100));
+        float x2 = (float) (Math.random() * (getWidth() - 100));
+        if (NewEnmey) {
+            new SmallEnemyAirCraft(x0, y, 0, 10);
+            new SmallEnemyAirCraft(x1, y, 0, 10);
+            new SmallEnemyAirCraft(x2, y, 0, 10);
+        }
+
+    }
+
+    private void attackRandom(boolean Medium, boolean NewEnmey) {
+        float x0 = (float) (Math.random() * (getWidth() - 100));
+        float x1 = (float) (Math.random() * (getWidth() - 100));
+        float x2 = (float) (Math.random() * (getWidth() - 100));
+
+        float x3 = (float) (Math.random() * (getWidth() - 100));
+        float x4 = (float) (Math.random() * (getWidth() - 100));
+        float x5 = (float) (Math.random() * (getWidth() - 100));
+
+        float y = 0;  // small enemyAircraft;s height
+
+        if (!Medium) {
+            if (NewEnmey) {
+                new SmallEnemyAirCraft(x0, y, 0, 10);
+                new SmallEnemyAirCraft(x1, y, 0, 10);
+                new SmallEnemyAirCraft(x2, y, 0, 10);
+            }
+        } else {
+            if (NewEnmey) {
+                new MediumEnemyAirCraft(x3, y, 0, 10);
+                new MediumEnemyAirCraft(x4, y, 0, 10);
+                new MediumEnemyAirCraft(x5, y, 0, 10);
             }
         }
     }
 
+    boolean stateOne = true;
+    boolean stateTwo = false;
+    boolean stateThree;
+    boolean bossState;
+    int counter = 0;
     int checker = 0;
+    private int startTime;
+    private int newRandomEnemyTime;
+    private int newRandomMediumTime;
+
     @Override
-    public void run(){  //这里控制GameState
-
-        while (isRunning()){
-
-            boolean Medium = checkTime(startTime, 5000);
-            boolean NewEnmey = checkTime(newEnemyTime, 2000);
-            if(Medium){
-                startTime = getmTimeLeftInMillis();
+    public void run() {  //这里控制GameState
+        while (isRunning()) {
+            boolean Medium = checkTime(newRandomMediumTime, 5000);
+            boolean NewEnmey = checkTime(newRandomEnemyTime, 2000);
+            System.out.println("wtfmmmm" + newRandomMediumTime);
+            System.out.println("wtf2"+ stateTwo);
+            System.out.println("wtf3" + getmTimeLeftInMillis());
+            if (Medium && NewEnmey) {
+                newRandomMediumTime = getmTimeLeftInMillis();
             }
-            if(NewEnmey){
-                newEnemyTime = getmTimeLeftInMillis();
+            if (NewEnmey) {
+                newRandomEnemyTime = getmTimeLeftInMillis();
             }
-            try{
-                float RotatingDegree = calculateroating();
-                float speedX = getMyAircraft().x / 100;
-                float sppedY = getMyAircraft().y / 100;
-                boolean onemore = checkTime(startTime, 60);
-                int counter = 0;
+            if (getmTimeLeftInMillis() > 15000 && getmTimeLeftInMillis() <= 30000) {
+                stateOne = false;
+                stateTwo = true;
+            }
+            if(getmTimeLeftInMillis() > 30000 && getmTimeLeftInMillis() <= 60000){
+                stateTwo = false;
+                stateThree = true;
+            }
+            if(getmTimeLeftInMillis() > 60000 && getmTimeLeftInMillis() <= 70000){
+                stateThree = false;
+                stateTwo = true;
+            }
+
+
+            if (stateOne) {
+                attackSmallRandom(NewEnmey);
+            }
+            else if(stateTwo){
+                attackRandom(Medium, NewEnmey);
+            }
+            else if(stateThree){
+
+            }
+
+        }
+        try {
+//                float RotatingDegree = calculateroating();
+//                float speedX = getMyAircraft().x / 100;
+//                float sppedY = getMyAircraft().y / 100;
+//                boolean onemore = checkTime(startTime, 800);
+//                int counter = 0;
 //                while(counter < 5) {
-                    if (onemore && counter < 5) {
-                        SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
-                        firstone.setRoaRotatingdegree(RotatingDegree);
-                        startTime = getmTimeLeftInMillis();
-                        counter++;
-                    }
+//                    if (onemore && counter < 5) {
+//                        SmallEnemyAirCraft firstone = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
+//                        firstone.setRoaRotatingdegree(RotatingDegree);
+//                        startTime = getmTimeLeftInMillis();
+//                        counter++;
+//                        System.out.println("one more"+ onemore);
+//                        System.out.println("one more" + startTime);
+//                    }
 //                }
 
 //                if(checker < 2) {
@@ -330,17 +402,14 @@ public class SkyManager extends Observable implements Runnable {
 //                    new SmallEnemyAirCraft(300,300,0,0);
 
 
-
-
-
 //                    System.out.println("the sie of the big enmey is " + getBigEnemyAircraftList().size());
 //                    checker += 1;
 //                }
 
-            }catch(Exception e){
-               e.printStackTrace();
-            }
-            System.out.println("the size is ok" + getEnemyAirCraftList().size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("the size is ok" + getEnemyAirCraftList().size());
 //            try {
 ////                Thread.sleep(1600);
 //                float x0 = (float) (Math.random() * (getWidth() - 100));
@@ -373,17 +442,16 @@ public class SkyManager extends Observable implements Runnable {
 //                e.printStackTrace();
 //            }
 
-            try {
-                Thread.sleep(3000);
-                float x = (float) (Math.random() * (getWidth() - 100));
-                float y = 0;  // small enemyAircraft;s height
-                new PowerUpItem(x, y, 0, 20);
-                System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
+        try {
+//                Thread.sleep(3000);
+//                float x = (float) (Math.random() * (getWidth() - 100));
+//                float y = 0;  // small enemyAircraft;s height
+//                new PowerUpItem(x, y, 0, 20);
+            System.out.println("this is the new power up item  list!" + getPowerUpItemList().size());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+//    }
     }
 
     public List<Missile> getMissileList() {
