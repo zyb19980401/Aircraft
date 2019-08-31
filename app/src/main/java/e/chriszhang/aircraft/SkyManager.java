@@ -1,6 +1,7 @@
 package e.chriszhang.aircraft;
 
 
+import android.content.Intent;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
@@ -25,6 +26,20 @@ public class SkyManager extends Observable implements Runnable {
 
     private int height;
 
+    public int getNumkill() {
+        return numkill;
+    }
+
+    public void setNumkill(int numkill) {
+        this.numkill = numkill;
+    }
+
+    public void addNumkill(int addnum){
+        this.numkill+= addnum;
+    }
+
+    private int numkill;
+
     public EnemyAirCraft Boss = null;
 
     public boolean isRunning(){return running;}
@@ -33,12 +48,17 @@ public class SkyManager extends Observable implements Runnable {
 
     private List<EnemyAirCraft> EnemyAirCraftList = Collections.synchronizedList (new ArrayList<>());
 
+    private List<HpUpItem> HpUpItemList =  Collections.synchronizedList (new ArrayList<>());
+
     public List<SmallEnemyAirCraft> getSmallEnemyAircraftList() {
         return SmallEnemyAircraftList;
     }
 
     public List<MediumEnemyAirCraft> getMediumEnemyAirCraftList() {
         return mediumEnemyAirCraftList;
+    }
+    public List<HpUpItem> getHpUpItemList() {
+        return HpUpItemList;
     }
 
     private List<MediumEnemyAirCraft> mediumEnemyAirCraftList = Collections.synchronizedList (new ArrayList<>());
@@ -168,6 +188,10 @@ public class SkyManager extends Observable implements Runnable {
         PowerUpItemList.remove(item);
     }
 
+    public void removeHpUpItem (HpUpItem item) {
+        HpUpItemList.remove(item);
+    }
+
 
     public void addEnemyAirCraftList(EnemyAirCraft airCraft) {
         EnemyAirCraftList.add(airCraft);
@@ -184,6 +208,10 @@ public class SkyManager extends Observable implements Runnable {
 
     public void addBigEnemyAirCraftList(BigEnemyAircraft bigEnemyAircraft){
         bigEnemyAircraftList.add(bigEnemyAircraft);
+    }
+
+    public void addHpUpItemList(HpUpItem hpUpItem){
+        HpUpItemList.add(hpUpItem);
     }
 
     public void removeMissileList(Missile missile){
@@ -310,7 +338,8 @@ public class SkyManager extends Observable implements Runnable {
         if (NewEnmey) {
             float x = (float) (Math.random() * (getWidth() - 100));
             float c = 0;  // small enemyAircraft;s height
-            new PowerUpItem(x, c, 0, 20);
+//            new HpUpItem(x,c,0,10);
+//            new PowerUpItem(x, c, 0, 20);
             new SmallEnemyAirCraft(x0, y, 0, 10);
             new SmallEnemyAirCraft(x1, y, 0, 10);
             new SmallEnemyAirCraft(x2, y, 0, 10);
@@ -354,12 +383,25 @@ public class SkyManager extends Observable implements Runnable {
     private int startTime;
     private int newRandomEnemyTime;
     private int newRandomMediumTime;
+    private int newHpUpItemTime;
+    private int newPowerUpItemTime;
 
     @Override
-    public void run() {  //这里控制GameState
+    public void run() {
+       //这里控制GameState
         while (isRunning()) {
+            System.out.println("the numkill is" + getNumkill());
+            if(getMyAircraft()!= null){
+                if(getMyAircraft().getHP() <= 0){
+                    this.setRunning(false);
+                    setChanged();
+                    notifyObservers();
+                }
+            }
             boolean Medium = checkTime(newRandomMediumTime, 5000);
             boolean NewEnmey = checkTime(newRandomEnemyTime, 2000);
+            boolean NewHpUp = checkTime(newHpUpItemTime, 7000);
+            boolean NewPowerUp = checkTime(newPowerUpItemTime, 6000);
             System.out.println("wtfmmmm" + newRandomMediumTime);
             System.out.println("wtf2"+ stateTwo);
             System.out.println("wtf3" + getmTimeLeftInMillis());
@@ -369,18 +411,28 @@ public class SkyManager extends Observable implements Runnable {
             if (NewEnmey) {
                 newRandomEnemyTime = getmTimeLeftInMillis();
             }
-            if (getmTimeLeftInMillis() > 5000 && getmTimeLeftInMillis() <= 10000) {
+            if(NewHpUp){
+                float x = (float) (Math.random() * (getWidth() - 100));
+                new HpUpItem(x,0,0,10);
+                newHpUpItemTime = getmTimeLeftInMillis();
+            }
+            if(NewPowerUp){
+                float x = (float) (Math.random() * (getWidth() - 100));
+                new PowerUpItem(x,0,0,10);
+                newPowerUpItemTime = getmTimeLeftInMillis();
+            }
+            if (getmTimeLeftInMillis() > 10000 && getmTimeLeftInMillis() <= 15000) {
                 stateOne = false;
                 stateTwo = true;
             }
-            if(getmTimeLeftInMillis() > 10000 && getmTimeLeftInMillis() <= 15000){
+            if(getmTimeLeftInMillis() > 15000 && getmTimeLeftInMillis() <= 25000){
                 stateTwo = false;
                 stateThree = true;
             }
-//            if(getmTimeLeftInMillis() > 15000 && getmTimeLeftInMillis() <= 20000){
-//                stateThree = false;
-//                stateFour = true;
-//            }
+            if(getmTimeLeftInMillis() > 25000 && getmTimeLeftInMillis() <= 30000){
+                stateThree = false;
+                stateFour = true;
+            }
 
 
             if (stateOne) {
@@ -394,6 +446,7 @@ public class SkyManager extends Observable implements Runnable {
                 float RotatingRight = calculateroatingright();
                 float speedX = getMyAircraft().x / 100;
                 float sppedY = getMyAircraft().y / 100;
+//                new HpUpItem(30, 0, 0, 20);
                 boolean onemore = checkTime(startTime, 800);
                     if (onemore && fivePlaneCounter < 5) {
                         SmallEnemyAirCraft firstoneleft = new SmallEnemyAirCraft(0, 0, speedX, sppedY);
@@ -409,7 +462,7 @@ public class SkyManager extends Observable implements Runnable {
             else if(stateFour){
                 if(checker < 2) {
                     Boss = new BigEnemyAircraft(400, 100, 20, 0);
-                    new SmallEnemyAirCraft(300,300,0,0);
+//                    new SmallEnemyAirCraft(300,300,0,0);
                     System.out.println("the sie of the big enmey is " + getBigEnemyAircraftList().size());
                     checker += 1;
                 }

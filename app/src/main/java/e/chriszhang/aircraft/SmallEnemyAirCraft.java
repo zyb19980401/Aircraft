@@ -35,6 +35,7 @@ public class SmallEnemyAirCraft extends EnemyAirCraft {
                     if(this.isRunning()&&this.isHitBy(getSkyManager().getMyAircraft())){
                         setRunning(false);
                         getSkyManager().getMyAircraft().decreaseHpBy(1);
+                        getSkyManager().addNumkill(1);
                     }
             } catch (Exception e) {
                     e.printStackTrace();

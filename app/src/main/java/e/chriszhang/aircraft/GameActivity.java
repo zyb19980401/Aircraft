@@ -1,13 +1,17 @@
 package e.chriszhang.aircraft;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class GameActivity extends AppCompatActivity implements Observer {
 
     //The coordinates when the screen is pressed
     private float x;
@@ -42,6 +46,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         skyManager = new SkyManager();
         skyManager.setRunning(true);
+        System.out.println("wttttttfffff1");
+        skyManager.addObserver(this);
+        System.out.println("wttttttfffff2");
         createTimer();
         new Thread(skyManager).start();
         setOnTouchListener();
@@ -113,6 +120,15 @@ public class GameActivity extends AppCompatActivity {
         skyManager.setRunning(false);
         finish();
     }
+    @Override
+    public void update(Observable o, Object arg) {
+//        if (!skyManager.isRunning()) {
+            Intent temp = new Intent(this, GameOverActivity.class);
+            startActivity(temp);
+            finish();
+//        }
+    }
+
 }
 
 

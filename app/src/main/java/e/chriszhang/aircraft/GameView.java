@@ -218,6 +218,7 @@ public class GameView extends View {
     private Bitmap powerUpItem = BitmapFactory.decodeResource(getResources(), R.mipmap.powerupbullet);
     private Bitmap missile = BitmapFactory.decodeResource(getResources(), R.mipmap.missile);
     private Bitmap heart = BitmapFactory.decodeResource(getResources(), R.mipmap.hp);
+    private Bitmap HP = BitmapFactory.decodeResource(getResources(), R.mipmap.heart);
     private Bitmap timer0 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer0);
     private Bitmap timer1 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer1);
     private Bitmap timer2 = BitmapFactory.decodeResource(getResources(), R.mipmap.timer2);
@@ -242,6 +243,7 @@ public class GameView extends View {
         drawList(g,skyManager.getEnemyBulletList(), bulletEnemy);   //draw the enemy bullet list
         drawList(g, skyManager.getPowerUpItemList(),powerUpItem);   //draw power up items list
         drawMissileList(g, skyManager.getMissileList(), missile);   //draw the missile list
+        drawList(g, skyManager.getHpUpItemList(),HP);
         drawHp(g);  //draw the three HP heart
         drawTime(g);    //draw the timer onto the right-top
 //        drawAircraftsList(g,skyManager.getMediumEnemyAirCraftList(), mediumEnemy);  //draw the medium enemy aircraft list

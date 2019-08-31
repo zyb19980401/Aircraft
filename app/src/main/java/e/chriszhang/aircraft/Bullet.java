@@ -76,6 +76,7 @@ public class Bullet extends FlyingObject implements Runnable{
                         System.out.println(airCraft.getHP());
                         if(!airCraft.isStillHealth()) {
                             airCraft.setRunning(false);
+                            getSkyManager().addNumkill(1);
                         }
                         this.setRunning(false);
                         isExploding = true;
